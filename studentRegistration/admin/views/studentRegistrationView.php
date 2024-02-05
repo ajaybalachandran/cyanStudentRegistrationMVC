@@ -3,67 +3,69 @@ include "../controllers/studentRegistrationController.php";
 $studentRegistrationObj = new studentRegistrationController();
 if(isset($_POST['submit'])){
    
-    $reg_no = $_POST['reg_no'];
-    $first_name = $_POST['fname'];
-    $last_name =  $_POST['lname'];
-    $fathers_name =   $_POST['father_name'];
-    $mothers_name =   $_POST['mother_name'];
-    $dob = $_POST['dob'];
-    $mobile = $_POST['mobile'];
-    $address = $_POST['address'];
-    $country = explode("+", $_POST['country'])[1];
-    $state = explode("+", $_POST['state'])[1];
-    $city = $_POST['cityId'];
-    $pincode = $_POST['pin'];
-    $email = $_POST['email'];
-    $gender = $_POST['gender'];
+    $registrationNumber         =       $_POST['registrationNumber'];
+    $firstName                  =       $_POST['firstName'];
+    $lastName                   =       $_POST['lastName'];
+    $fathersName                =       $_POST['fathersName'];
+    $mothersName                =       $_POST['mothersName'];
+    $dob                        =       $_POST['dob'];
+    $mobile                     =       $_POST['mobile'];
+    $address                    =       $_POST['address'];
+    $countryId                  =       explode("+", $_POST['country'])[1];
+    $stateId                    =       explode("+", $_POST['state'])[1];
+    $cityId                     =       $_POST['cityId'];
+    $pinCode                    =       $_POST['pinCode'];
+    $email                      =       $_POST['email'];
+    $gender                     =       $_POST['gender'];
 
     // Initialize hobby variables
-    $reading = isset($_POST['reading']) ? 1 : 0;
-    $music = isset($_POST['music']) ? 1 : 0;
-    $sports = isset($_POST['sports']) ? 1 : 0;
-    $travel = isset($_POST['travel']) ? 1 : 0;
-    // echo "$reading, $music, $sports, $travel";
+    $reading                    =       isset($_POST['reading']) ? 1 : 0;
+    $music                      =       isset($_POST['music']) ? 1 : 0;
+    $sports                     =       isset($_POST['sports']) ? 1 : 0;
+    $travel                     =       isset($_POST['travel']) ? 1 : 0;
 
-    $examination = $_POST['examination'];
-    $board = $_POST['board'];
-    $percentage = $_POST['percentage'];
-    $yop = $_POST['yop'];
+    $examinationArray           =       $_POST['examination'];
+    $boardArray                 =       $_POST['board'];
+    $percentageArray            =       $_POST['percentage'];
+    $yopArray                   =       $_POST['yop'];
 
-    $image = $_FILES['profile_image'];
-    $imagefilename = $image['name'];
-    $imagefileerror = $image['error'];
-    $imagefiletmp = $image['tmp_name'];
-    if($imagefileerror==0){
+    $image                      =       $_FILES['profile_image'];
+    $imageFileName              =       $image['name'];
+    $imageFileError             =       $image['error'];
+    $imageFileTmp               =       $image['tmp_name'];
+    if($imageFileError == 0){
         
         //for creating path of image file to insert into db
-        $upload_image = $studentRegistrationObj->imageFileUpload($imagefilename);
-
-        $stud_id = $studentRegistrationObj->setStudent($reg_no, $upload_image, $first_name, $last_name, $fathers_name, $mothers_name, $dob, 
-        $mobile, $address, $country, $state, $city, $pincode, $email, $gender);
-        if($stud_id){
+        $imageUrl = $studentRegistrationObj->imageFileUpload($imageFileName);
+        $studentId = $studentRegistrationObj->setStudent($registrationNumber, $imageUrl, $firstName, $lastName, $fathersName, $mothersName, $dob, 
+                                                        $mobile, $address, $countryId, $stateId, $cityId, $pinCode, $email, $gender);
+        if($studentId)
+        {
             echo "Student Data inserted Successfully";
-        }else{
+        }
+        else
+        {
             die("Student Data not inserted!!!!!!");
         }
 
         //for move the uploaded image file into the specified folder
-        $studentRegistrationObj->moveUploadedImageToFolder($imagefiletmp, $upload_image);
-       
-        $hobbies_result = $studentRegistrationObj->setHobbies($stud_id, $reading, $music, $sports, $travel);
-        if($hobbies_result){
+        $studentRegistrationObj->moveUploadedImageToFolder($imageFileTmp, $imageUrl);
+        $hobbiesResult = $studentRegistrationObj->setHobbies($studentId, $reading, $music, $sports, $travel);
+        if($hobbiesResult)
+        {
             echo "Hobbies Data inserted Successfully";
-        }else{
+        }
+        else
+        {
             die("Hobbies Data not inserted!!!!!!");
         }
-        
-
-        for($i=0; $i<count($examination);$i++){
-            $exam = $examination[$i];
-            $brd = $board[$i];
-            $per = $percentage[$i];
-            $year = $yop[$i];
-            $qualifications_result = $studentRegistrationObj->setQualifications($stud_id, $exam, $brd, $per, $year);
+        for($i=0; $i<count($examinationArray);$i++)
+        {
+            $examination = $examinationArray[$i];
+            $board = $boardArray[$i];
+            $percentage = $percentageArray[$i];
+            $yop = $yopArray[$i];
+            $qualificationsResult = $studentRegistrationObj->setQualifications($studentId, $examination, $board, $percentage, $yop);
         }
     }
     header('location:studentRegistrationView.php');
@@ -162,7 +164,7 @@ if(isset($_POST['delete_student'])){
 
                                                     </div>
                                                     <div class="col-lg-8">
-                                                        <input class="input_fields" type="number" name="reg_no" id="id_reg_no" style="width: 100%;">
+                                                        <input class="input_fields" type="number" name="registrationNumber" id="id_reg_no" style="width: 100%;">
 
                                                     </div>
                                                 </div>
@@ -195,7 +197,7 @@ if(isset($_POST['delete_student'])){
 
                                                     </div>
                                                     <div class="col-lg-8">
-                                                        <input type="text" name="fname" class="input_fields" id="id_first_name" placeholder="">
+                                                        <input type="text" name="firstName" class="input_fields" id="id_first_name" placeholder="">
 
                                                     </div>
                                                 </div>
@@ -207,7 +209,7 @@ if(isset($_POST['delete_student'])){
 
                                                     </div>
                                                     <div class="col-lg-8">
-                                                        <input type="text" name="lname" class="input_fields" id="id_lname" placeholder="">
+                                                        <input type="text" name="lastName" class="input_fields" id="id_lname" placeholder="">
 
                                                     </div>
                                                 </div>
@@ -223,7 +225,7 @@ if(isset($_POST['delete_student'])){
 
                                                     </div>
                                                     <div class="col-lg-8">
-                                                        <input type="text" name="father_name" class="input_fields" id="id_father_name" placeholder="">
+                                                        <input type="text" name="fathersName" class="input_fields" id="id_father_name" placeholder="">
 
                                                     </div>
                                                 </div>
@@ -235,7 +237,7 @@ if(isset($_POST['delete_student'])){
 
                                                     </div>
                                                     <div class="col-lg-8">
-                                                        <input type="text" name="mother_name" class="input_fields" id="id_mother_name" placeholder="">
+                                                        <input type="text" name="mothersName" class="input_fields" id="id_mother_name" placeholder="">
 
                                                     </div>
                                                 </div>
@@ -346,7 +348,7 @@ if(isset($_POST['delete_student'])){
                                                         <label for="id_pin" class="fw-semibold">Pincode</label>
                                                     </div>
                                                     <div class="col-lg-8">
-                                                        <input type="number" name="pin" class="input_fields" id="id_pin" placeholder="">
+                                                        <input type="number" name="pinCode" class="input_fields" id="id_pin" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1322,7 +1324,7 @@ if(isset($_POST['delete_student'])){
                 }
                 // console.log(tvalue, s_value)
                 if (tvalue != ""){
-                    $.post("../ajax/ajaxCityAutoComplete.php",{state_id:s_array[1],search_text:tvalue},function(data,status){
+                    $.post("../ajax/ajaxCityAutoComplete.php",{	stateId:s_array[1],searchText:tvalue},function(data,status){
                         // var cities = JSON.parse(data);
                         $('#countryList').fadeIn();
                         $("#countryList").html(data);

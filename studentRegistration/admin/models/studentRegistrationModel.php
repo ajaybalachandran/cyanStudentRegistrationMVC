@@ -2,30 +2,30 @@
 include "../dbconnection.php";
 class studentRegistrationModel{
 
-    public function setStudent($reg_no, $upload_image, $first_name, $last_name, $fathers_name, $mothers_name, $dob, 
-    $mobile, $address, $country, $state, $city, $pincode, $email, $gender){
+    public function setStudent($registrationNumber, $imageUrl, $firstName, $lastName, $fathersName, $mothersName, $dob, 
+    $mobile, $address, $countryId, $stateId, $cityId, $pinCode, $email, $gender){
         global $conn;
-        $sql = "INSERT INTO `student`(registration_no,image,first_name,last_name,fathers_name,mothers_name,dob,mobile,address,countryId,stateId,cityId,pincode,email,gender) 
-        VALUES('$reg_no', '$upload_image', '$first_name', '$last_name', 
-        '$fathers_name', '$mothers_name', '$dob', '$mobile', '$address', 
-        $country, $state, $city, '$pincode', '$email', '$gender')";
+        $sql = "INSERT INTO `student`(registrationNumber, imageUrl, firstName, lastName, fathersName, mothersName, dob, mobile, address, countryId, stateId, cityId, pinCode, email, gender) 
+        VALUES('$registrationNumber', '$imageUrl', '$firstName', '$lastName', 
+        '$fathersName', '$mothersName', '$dob', '$mobile', '$address', 
+        $countryId, $stateId, $cityId, $pinCode, '$email', '$gender')";
         $result = mysqli_query($conn, $sql);
         $lastId=mysqli_insert_id($conn);
         return $lastId;
     }
 
-    public function setHobbies($stud_id, $reading, $music, $sports, $travel){
+    public function setHobbies($studentId, $reading, $music, $sports, $travel){
         global $conn;
-        $sql = "INSERT INTO `hobbies`(student_id,reading,music,sports,travel)
-        VALUES($stud_id, $reading, $music, $sports, $travel)";
+        $sql = "INSERT INTO `hobbies`(studentId,reading,music,sports,travel)
+        VALUES($studentId, $reading, $music, $sports, $travel)";
         $result = mysqli_query($conn, $sql);
         return $result;
     }
 
-    public function setQualifications($stud_id, $exam, $brd, $per, $year){
+    public function setQualifications($studentId, $examination, $board, $percentage, $yop){
         global $conn;
-        $sql = "INSERT INTO `qualifications`(student_id,examination,board,percentage,yop)
-        VALUES($stud_id, '$exam', '$brd', '$per', $year)";
+        $sql = "INSERT INTO `qualifications`(studentId,examination,board,percentage,yop)
+        VALUES($studentId, '$examination', '$board', '$percentage', $yop)";
         $result = mysqli_query($conn, $sql);
         return $result;
     }
@@ -37,16 +37,16 @@ class studentRegistrationModel{
         return $result;
     }
 
-    public function getStates($country_id){
+    public function getStates($countryId){
         global $conn;
-        $sql = "SELECT * FROM `states` WHERE country_id=$country_id";
+        $sql = "SELECT * FROM `states` WHERE countryId=$countryId";
         $result = mysqli_query($conn, $sql);
         return $result;
     }
 
-    public function getCities($search_txt, $state_id){
+    public function getCities($searchText, $stateId){
         global $conn;
-        $sql = "SELECT * FROM `cities` WHERE city_name LIKE '$search_txt%' AND state_id=$state_id";
+        $sql = "SELECT * FROM `cities` WHERE cityName LIKE '$searchText%' AND stateId=$stateId";
         $result = mysqli_query($conn,$sql);
         return $result;
     }

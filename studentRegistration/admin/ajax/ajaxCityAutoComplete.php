@@ -1,15 +1,15 @@
 <?php
 include "../models/studentRegistrationModel.php"; 
 $model = new studentRegistrationModel();
-if(isset($_POST['state_id'])){
+if(isset($_POST['stateId'])){
     $output = '';
-    $sid = $_POST['state_id'];
-    $search_txt =  $_POST['search_text'];
-    $result = $model->getCities($search_txt, $sid);
+    $stateId = $_POST['stateId'];
+    $searchText =  $_POST['searchText'];
+    $result = $model->getCities($searchText, $stateId);
     $output = '<ul class="list-unstyled">';
     if(mysqli_num_rows($result)>0){
         while($row=mysqli_fetch_array($result)){
-            $output .='<li class="citynames">'.$row["city_name"].'<input class="hiddenCityId" name="cityId" type="hidden" value="'.$row["id"].'">'.'</li>';
+            $output .='<li class="citynames">'.$row["cityName"].'<input class="hiddenCityId" name="cityId" type="hidden" value="'.$row["cityId"].'">'.'</li>';
         }
     }
     else{
