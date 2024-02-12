@@ -60,21 +60,21 @@ class studentRegistrationModel{
 
     public function getStudentDetails($student_id){
         global $conn;
-        $sql = "SELECT * FROM `student` WHERE student.id=$student_id";
+        $sql = "SELECT * FROM `student` WHERE studentId=$student_id";
         $result = mysqli_query($conn, $sql);
         return $result;
     }
 
     public function getHobbieDetails($student_id){
         global $conn;
-        $sql = "SELECT * FROM `hobbies` WHERE student_id=$student_id";
+        $sql = "SELECT * FROM `hobbies` WHERE studentId=$student_id";
         $result = mysqli_query($conn, $sql);
         return $result;
     }
 
     public function getQualificationDetails($student_id){
         global $conn;
-        $sql = "SELECT * FROM `qualifications` WHERE student_id=$student_id AND status=1";   
+        $sql = "SELECT * FROM `qualifications` WHERE studentId=$student_id AND status=1";   
         $result = mysqli_query($conn, $sql);
         return $result;
     }
@@ -148,21 +148,40 @@ class studentRegistrationModel{
 
     public function getCountryNameById($countryId){
         global $conn;
-        $sql = "SELECT 	country_name FROM `countries` WHERE id=$countryId";
+        $sql = "SELECT 	countryName FROM `countries` WHERE countryId=$countryId";
         $result = mysqli_query($conn,$sql);
         return $result;
     }
 
     public function getStateNameById($stateId){
         global $conn;
-        $sql = "SELECT 	state_name FROM `states` WHERE id=$stateId";
+        $sql = "SELECT 	stateName FROM `states` WHERE stateId=$stateId";
         $result = mysqli_query($conn,$sql);
         return $result;
     }
 
     public function getCityNameById($cityId){
         global $conn;
-        $sql = "SELECT city_name FROM `cities` WHERE id=$cityId";
+        $sql = "SELECT cityName FROM `cities` WHERE cityId=$cityId";
+        $result = mysqli_query($conn, $sql);
+        return $result;
+    }
+
+    public function getStudentRecord($studentId){
+        global $conn;
+        // $sql = "SELECT * 
+        // FROM student 
+        // JOIN hobbies ON student.studentId = hobbies.studentId AND student.status = 1 AND hobbies.status = 1 
+        // JOIN qualifications ON student.studentId = qualifications.studentId AND qualifications.status = 1 
+        // WHERE student.studentId=$studentId";
+        $sql = "SELECT s.*, c.countryName, st.stateName, ci.cityName, h.*, q.*
+                FROM student s
+                JOIN countries c ON s.countryId = c.countryId
+                JOIN states st ON s.stateId = st.stateId
+                JOIN cities ci ON s.cityId = ci.cityId
+                JOIN hobbies h ON s.studentId = h.studentId AND s.status = 1 AND h.status = 1
+                JOIN qualifications q ON s.studentId = q.studentId AND q.status = 1
+                WHERE s.studentId = $studentId";
         $result = mysqli_query($conn, $sql);
         return $result;
     }

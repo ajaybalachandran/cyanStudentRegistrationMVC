@@ -3,38 +3,62 @@ include "../models/studentRegistrationModel.php";
 $model = new studentRegistrationModel();
 if(isset($_POST['update_id'])){
     $user_id = $_POST['update_id'];
+    $result = $model->getStudentRecord($user_id);
+    $finalResult = array();
+    foreach ($result as $row) {
+        $studentId = $row['studentId'];
+
+        // Check if the studentId already exists in $finalResult
+        if (!isset($finalResult[$studentId])) {
+            // If not, add the student details
+            $finalResult[$studentId] = array(
+                'studentId' => $row['studentId'],
+                'registrationNumber' => $row['registrationNumber'],
+                'imageUrl' => $row['imageUrl'],
+                'firstName' => $row['firstName'],
+                'lastName' => $row['lastName'],
+                'fathersName' => $row['fathersName'],
+                'mothersName' => $row['mothersName'],
+                'dob' => $row['dob'],
+                'mobile' => $row['mobile'],
+                'address' => $row['address'],
+                'countryId' => $row['countryId'],
+                'countryName' => $row['countryName'],
+                'stateId' => $row['stateId'],
+                'stateName' => $row['stateName'],
+                'cityId' => $row['cityId'],
+                'cityName' => $row['cityName'],
+                'pinCode' => $row['pinCode'],
+                'email' => $row['email'],
+                'gender' => $row['gender'],
+                'status' => $row['status'],
+                'hobbieId' => $row['hobbieId'],
+                'reading' => $row['reading'],
+                'music' => $row['music'],
+                'sports' => $row['sports'],
+                'travel' => $row['travel'],
+                'qualifications' => array(),
+            );
+        }
+
+        // Add qualification details to the 'qualifications' array
+        $finalResult[$studentId]['qualifications'][] = array(
+            'qualificationId' => $row['qualificationId'],
+            'examination' => $row['examination'],
+            'board' => $row['board'],
+            'percentage' => $row['percentage'],
+            'yop' => $row['yop'],
+        );
+    }
+
+    // Convert the associative array to indexed array
+    $finalResult = array_values($finalResult);
+
+    // Now $finalResult contains the desired structure
+    echo json_encode($finalResult);
     
-    $result = $model->getStudentDetails($user_id);
-    $student = mysqli_fetch_assoc($result);
-
-    //now extract the country name using the country id. to set the value of country dropdown in views using jquery
-    $countryId = $student['countryId'];
-    $result = $model->getCountryNameById($countryId);
-    $countryName = mysqli_fetch_assoc($result);
-
-    //now extract the state name using the state id. to set the value of state dropdown in views using jquery
-    $stateId = $student['stateId'];
-    $result = $model->getStateNameById($stateId);
-    $stateName = mysqli_fetch_assoc($result);
-
-    //now extract the city name using the city id. to set the value of city input box in views using jquery
-    $cityId = $student['cityId'];
-    $result = $model->getCityNameById($cityId);
-    $cityName = mysqli_fetch_assoc($result);
-
-    $result = $model->getHobbieDetails($user_id);
-    $hobbies = mysqli_fetch_assoc($result);
-
-    $result = $model->getQualificationDetails($user_id);
-    $qualifications = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-    // Combine all data into a single record
-    $student_record = array_merge($student, $countryName, $stateName, $cityName, $hobbies);
-    $student_record['qualifications'] = $qualifications;
-    echo json_encode($student_record);
-
-}else{
-    $response['status'] = 200;
-    $response['message'] = "Invalid or data not found";
-}
+    }else{
+        $response['status'] = 200;
+        $response['message'] = "Invalid or data not found";
+    }
 ?>

@@ -40,8 +40,8 @@ class studentRegistrationController{
         $countries = $model->getCountries();
         $dropdown_options = '';
         while($row=mysqli_fetch_assoc($countries)){
-            $c_id = $row['id'];
-            $c_name = $row['country_name'];
+            $c_id = $row['countryId'];
+            $c_name = $row['countryName'];
             $dropdown_options.= '<option value="'.$c_name.'" data-country-id="'.$c_id.'">'.ucfirst($c_name).'</option>';
         }
         return $dropdown_options;

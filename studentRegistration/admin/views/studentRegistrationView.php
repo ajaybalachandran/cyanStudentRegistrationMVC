@@ -1014,65 +1014,68 @@ if(isset($_POST['delete_student'])){
                 // console.log("this is response data")
                 console.log(data);
                 var userid = JSON.parse(data);
-                var qualificationsArray = userid.qualifications;
-                
-                $('#update_id_reg_no').val(userid.registration_no);
-                $('#id_update_first_name').val(userid.first_name);
-                $('#id_update_lname').val(userid.last_name);
-                $('#id_update_father_name').val(userid.fathers_name);
-                $('#id_update_mother_name').val(userid.mothers_name);
-                $('#id_update_dob').val(userid.dob);
-                $('#id_update_mob').val(userid.mobile);
-                $('#id_update_address').val(userid.address);
-                $('#id_update_country').val(userid.country_name);
+                userid.forEach(student => {
+                    $('#update_id_reg_no').val(student.registrationNumber);
+                    $('#id_update_first_name').val(student.firstName);
+                    $('#id_update_lname').val(student.lastName);
+                    $('#id_update_father_name').val(student.fathersName);
+                    $('#id_update_mother_name').val(student.mothersName);
+                    $('#id_update_dob').val(student.dob);
+                    $('#id_update_mob').val(student.mobile);
+                    $('#id_update_address').val(student.address);
+                    $('#id_update_country').val(student.countryName);
 
-                $.post("../ajax/ajaxGetStatesUpdate.php",{countryId:userid.countryId},function(data,status){
-                    //let matched_states = JSON.parse(data);
-                    $("#id_update_state option:gt(0)").remove();
-                    $('#id_update_state').append(data);
+                    $.post("../ajax/ajaxGetStatesUpdate.php",{countryId:student.countryId},function(data,status){
+                        //let matched_states = JSON.parse(data);
+                        $("#id_update_state option:gt(0)").remove();
+                        $('#id_update_state').append(data);
+                        $('#id_update_state').val(student.stateName);
+                    }); 
+
+                    $('#id_update_city').val(student.cityName);
+                    $('#id_update_pin').val(student.pinCode);
+                    $('#id_update_email').val(student.email);
+
+                    $('#id_male').prop('checked', student.gender == 'male' ? true : false);
+                    $('#id_female').prop('checked', student.gender == 'female' ? true : false);
+                    $('#id_others').prop('checked', student.gender == 'others' ? true : false);
+
+                    $('#id_update_reading').prop('checked', student.reading == 1 ? true : false);
+                    $('#id_update_music').prop('checked', student.music == 1 ? true : false);
+                    $('#id_update_sports').prop('checked', student.sports == 1 ? true : false);
+                    $('#id_update_travel').prop('checked', student.travel == 1 ? true : false);
+
+                    var qualificationsArray = student.qualifications;
+                    console.log(qualificationsArray);
+                    //deynamic row
+                    var slno = 1 ;
+                    $("#id_update_qualification_table").find("tr:gt(0)").remove();
+                    for(i in qualificationsArray)
+                    {
+                        // console.log(qualificationsArray[i]);
+                        var html = '';
+                        html += '<tr><td><p>'+slno+'</p><input type="hidden" name="qualification_id[]" id="existing_update_hidden_id'+slno+'"></td>';
+                        html += '<td><input type="text" name="examination[]" id="id_update_examination'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
+                        html += '<td><input type="text" name="board[]" id="id_update_board'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
+                        html += '<td><input type="text" name="percentage[]" id="id_update_percentage'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
+                        html += '<td><input type="text" name="yop[]" id="id_update_yop'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
+                        html += '<td><button type="button" class="btn btn-sm btn-danger update_remove" name="remove"><span><i class="fa-solid fa-minus"></i></span></button>';
+                        html += '<input type="hidden" name="status[]" id="existing_hidden_status'+slno+'" value=1></td>'
+                        html += '</tr>';
+                        $('#id_update_qualification_table').append(html);
+                        $('#existing_update_hidden_id'+slno).val(qualificationsArray[i].qualificationId);
+                        $('#id_update_examination'+slno).val(qualificationsArray[i].examination);
+                        $('#id_update_board'+slno).val(qualificationsArray[i].board);
+                        $('#id_update_percentage'+slno).val(qualificationsArray[i].percentage);
+                        $('#id_update_yop'+slno).val(qualificationsArray[i].yop);
                     
-                    $('#id_update_state').val(userid.state_name);
-                }); 
-
-                $('#id_update_city').val(userid.city_name);
-                $('#id_update_pin').val(userid.pincode);
-                $('#id_update_email').val(userid.email);
-            
-                $('#id_male').prop('checked', userid.gender == 'male' ? true : false);
-                $('#id_female').prop('checked', userid.gender == 'female' ? true : false);
-                $('#id_others').prop('checked', userid.gender == 'others' ? true : false);
-
-
-                $('#id_update_reading').prop('checked', userid.reading == 1 ? true : false);
-                $('#id_update_music').prop('checked', userid.music == 1 ? true : false);
-                $('#id_update_sports').prop('checked', userid.sports == 1 ? true : false);
-                $('#id_update_travel').prop('checked', userid.travel == 1 ? true : false);
-               
-                //deynamic row
-                var slno = 1 ;
-                $("#id_update_qualification_table").find("tr:gt(0)").remove();
-                for(i in qualificationsArray){
-                    // console.log(qualificationsArray[i]);
-                    var html = '';
-                    html += '<tr><td><p>'+slno+'</p><input type="hidden" name="qualification_id[]" id="existing_update_hidden_id'+slno+'"></td>';
-                    html += '<td><input type="text" name="examination[]" id="id_update_examination'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
-                    html += '<td><input type="text" name="board[]" id="id_update_board'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
-                    html += '<td><input type="text" name="percentage[]" id="id_update_percentage'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
-                    html += '<td><input type="text" name="yop[]" id="id_update_yop'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
-                    html += '<td><button type="button" class="btn btn-sm btn-danger update_remove" name="remove"><span><i class="fa-solid fa-minus"></i></span></button>';
-                    html += '<input type="hidden" name="status[]" id="existing_hidden_status'+slno+'" value=1></td>'
-                    html += '</tr>';
-                    $('#id_update_qualification_table').append(html);
-                    $('#existing_update_hidden_id'+slno).val(qualificationsArray[i].id);
-                    $('#id_update_examination'+slno).val(qualificationsArray[i].examination);
-                    $('#id_update_board'+slno).val(qualificationsArray[i].board);
-                    $('#id_update_percentage'+slno).val(qualificationsArray[i].percentage);
-                    $('#id_update_yop'+slno).val(qualificationsArray[i].yop);
-                
-                    slno += 1;
-                }
-                // console.log("this is")
-
+                        slno += 1;
+                    }
+                   
+                    console.log("-------------------------");
+                    
+                });
+              
             });
             $("#updateModal").modal("show");
         }
