@@ -102,7 +102,7 @@ if(isset($_FILES['img']) || isset($_POST['no_image'])){
 
         //update
         if($status == 1){
-            $result = $model->updateHobbies($reading, $music, $sports, $travel, $student_update_id);
+            $result = $model->updateQualifications($exam, $brd, $per, $year, $q_id);
             if(!$result){
                 die(mysqli_error($conn));
             }

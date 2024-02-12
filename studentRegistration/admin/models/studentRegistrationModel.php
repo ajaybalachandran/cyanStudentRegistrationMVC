@@ -107,13 +107,13 @@ class studentRegistrationModel{
     $mobile, $address, $country, $state, $city, $pincode, $email, $gender, $student_update_id){
         global $conn;
         $sql = "UPDATE `student`
-        SET registration_no='$reg_no',
-        first_name='$first_name',last_name='$last_name',
-        fathers_name='$fathers_name',mothers_name='$mothers_name',
+        SET registrationNumber='$reg_no',
+        firstName='$first_name',lastName='$last_name',
+        fathersName='$fathers_name',mothersName='$mothers_name',
         dob='$dob',mobile='$mobile',address='$address',
         countryId=$country,stateId=$state,cityId=$city,
         pincode='$pincode',email='$email',gender='$gender' 
-        WHERE id=$student_update_id";
+        WHERE studentId=$student_update_id";
         $result = mysqli_query($conn,$sql);
         return $result;
     }
@@ -121,14 +121,22 @@ class studentRegistrationModel{
     public function updateHobbies($reading, $music, $sports, $travel, $student_update_id){
         global $conn;
         $sql = "UPDATE `hobbies` SET reading=$reading, music=$music,
-                sports=$sports, travel=$travel WHERE student_id=$student_update_id";
+                sports=$sports, travel=$travel WHERE studentId=$student_update_id";
+        $result = mysqli_query($conn, $sql);
+        return $result;
+    }
+
+    public function updateQualifications($exam, $brd, $per, $year, $q_id){
+        global $conn;
+        $sql = "UPDATE `qualifications` SET examination='$exam',
+                board='$brd', percentage=$per, yop='$year' WHERE qualificationId=$q_id";
         $result = mysqli_query($conn, $sql);
         return $result;
     }
 
     public function deleteQualifications($q_id){
         global $conn;
-        $sql = "UPDATE `qualifications` SET status=0 WHERE id=$q_id";
+        $sql = "UPDATE `qualifications` SET status=0 WHERE qualificationId=$q_id";
         $result = mysqli_query($conn, $sql);
         return $result;
     }
@@ -136,12 +144,12 @@ class studentRegistrationModel{
     public function deleteStudent($stud_id){
         global $conn;
         $sql = "UPDATE student
-        JOIN qualifications ON student.id = qualifications.student_id
-        JOIN hobbies ON student.id = hobbies.student_id
+        JOIN qualifications ON student.studentId = qualifications.studentId
+        JOIN hobbies ON student.studentId = hobbies.studentId
         SET student.status = 0,
             qualifications.status = 0,
             hobbies.status = 0
-        WHERE student.id = $stud_id";
+        WHERE student.studentId = $stud_id";
         $result = mysqli_query($conn,$sql);
         return $result;
     }

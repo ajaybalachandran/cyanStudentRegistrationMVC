@@ -7,6 +7,9 @@ if(isset($_POST['update_id'])){
     $finalResult = array();
     foreach ($result as $row) {
         $studentId = $row['studentId'];
+        $htmlOutput = '';
+        $htmlOutput .='<input type="hidden" class="hiddenCityId" name="cityId" value="'.$row["cityId"].'">';
+        
 
         // Check if the studentId already exists in $finalResult
         if (!isset($finalResult[$studentId])) {
@@ -37,6 +40,7 @@ if(isset($_POST['update_id'])){
                 'music' => $row['music'],
                 'sports' => $row['sports'],
                 'travel' => $row['travel'],
+                'cityInfoHtml' => $htmlOutput,
                 'qualifications' => array(),
             );
         }

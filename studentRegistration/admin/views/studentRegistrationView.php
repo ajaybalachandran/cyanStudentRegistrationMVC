@@ -695,6 +695,7 @@ if(isset($_POST['delete_student'])){
                                                 <div class="col-lg-8 city_names_update">
                                                     <input type="text" name="city" class="input_fields" id="id_update_city" autocomplete="off">
                                                     <div  id="countryListUpdate"></div>
+                                                    <div id="cityIdPopulate"></div>
 
                                                 </div>
                                             </div>
@@ -1033,6 +1034,10 @@ if(isset($_POST['delete_student'])){
                     }); 
 
                     $('#id_update_city').val(student.cityName);
+
+                    //Here we populate the existing id of the city in a hidden input field. it is coming from ajax response.
+                    $("#cityIdPopulate").html(student.cityInfoHtml);
+
                     $('#id_update_pin').val(student.pinCode);
                     $('#id_update_email').val(student.email);
 
@@ -1119,7 +1124,10 @@ if(isset($_POST['delete_student'])){
                 console.log(countryId,stateId)
                 formData.append('countryId', countryId);
                 formData.append('stateId', stateId);
-
+                
+                for (let pair of formData.entries()) {
+                    console.log(pair[0] + ': ' + pair[1]);
+                }
                 
                 $.ajax({
                     url: '../ajax/ajaxUpdateStudentDetails.php',
@@ -1355,6 +1363,8 @@ if(isset($_POST['delete_student'])){
         //city auto complete update 
 
         $(document).on('keyup', '#id_update_city', function(e){
+            //removing the hidden city id while populating student details on update modal
+            $('#cityIdPopulate').remove();
             let stateId = $('#id_update_state option:selected').data('state-id');
             // let s_array = s_datas.split("+")
             // let s_value = $('#id_state').val();

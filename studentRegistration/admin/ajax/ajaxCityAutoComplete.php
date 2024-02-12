@@ -9,7 +9,7 @@ if(isset($_POST['stateId'])){
     $output = '<ul class="list-unstyled">';
     if(mysqli_num_rows($result)>0){
         while($row=mysqli_fetch_array($result)){
-            $output .='<li class="citynames">'.$row["cityName"].'<input class="hiddenCityId" name="cityId" type="hidden" value="'.$row["cityId"].'">'.'</li>';
+            $output .='<li class="citynames">'.$row["cityName"].'<input type="hidden" class="hiddenCityId" name="cityId" value="'.$row["cityId"].'">'.'</li>';
         }
     }
     else{
