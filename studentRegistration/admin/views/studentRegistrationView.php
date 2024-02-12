@@ -1364,7 +1364,7 @@ if(isset($_POST['delete_student'])){
             }
             // console.log(tvalue, s_value)
             if (tvalue != ""){
-                $.post("../ajax/ajaxCityAutoComplete.php",{state_id:stateId,search_text:tvalue},function(data,status){
+                $.post("../ajax/ajaxCityAutoComplete.php",{stateId:stateId,searchText:tvalue},function(data,status){
                     // var cities = JSON.parse(data);
                     $('#countryListUpdate').fadeIn();
                     $("#countryListUpdate").html(data);
