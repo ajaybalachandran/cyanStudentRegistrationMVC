@@ -141,8 +141,8 @@ if(isset($_POST['delete_student']))
                                             </div>
                                             <div class="col-1 d-flex align-items-center justify-content-center main_heading_side">
                                                 <div class="">
-                                                    <button class="btn btn btn-outline-danger " type="button" data-bs-dismiss="modal">
-                                                    <i class="fa-solid  fa-rectangle-xmark "></i>
+                                                    <button class="btn btn btn-outline-danger closeRegModalBtn" type="button" >
+                                                        <i class="fa-solid  fa-rectangle-xmark "></i>
                                                     </button>
                                                     
                                                 </div>
@@ -469,7 +469,7 @@ if(isset($_POST['delete_student']))
                                             </div>
                                             <div class="col-1 d-flex align-items-center justify-content-center main_heading_side">
                                                 <div class="">
-                                                    <button class="btn btn btn-outline-danger " type="button" data-bs-dismiss="modal">
+                                                    <button class="btn btn btn-outline-danger closeUpdateModalBtn" type="button">
                                                         <i class="fa-solid  fa-rectangle-xmark "></i>
                                                     </button>
                                                 </div>
@@ -946,8 +946,22 @@ if(isset($_POST['delete_student']))
         //<-------------------------------------------------------------------------- [REGISTRATION] -------------------------------------------------------------------------->
 
         //[REGISTRATION] Changing state dropdown options as per the selected country
-        $(document).ready(function(){
-            $(document).on('change', '#id_country', function(e){
+        $(document).ready(function()
+        {
+            $('#exampleModal').modal({backdrop: 'static', keyboard: false}); 
+            $('.closeRegModalBtn').click(function() 
+            {
+                if (confirm('Do you want to close?')) 
+                {
+                    $('#reg_form').trigger("reset");
+                    $('#exampleModal').find('input[type!="file"], textarea, select').css('border', '');
+                    $('#exampleModal').find('input[type="file"]').css('border', 'none');
+                    $('#exampleModal').modal('hide');
+                }
+            });
+
+            $(document).on('change', '#id_country', function(e)
+            {
                 $('#id_city').val("");//[REGISTRATION] Changing the country dropdown options will remove the city name
                 let selectedCountryValue = $('#id_country').val();
                 let selectedCountryValueArray = selectedCountryValue.split("+")
@@ -961,12 +975,14 @@ if(isset($_POST['delete_student']))
             });
 
             //[REGISTRATION] Changing the state dropdown options will remove the city name
-            $(document).on('change', '#id_state', function(e){
+            $(document).on('change', '#id_state', function(e)
+            {
                 $('#id_city').val("");
             });
 
             //[REGISTRATION] City Auto Complete
-            $(document).on('keyup', '#id_city', function(e){
+            $(document).on('keyup', '#id_city', function(e)
+            {
                 let selectedStateValue = $('#id_state').val();
                 let selectedStateValueArray = selectedStateValue.split("+")
                 var typedCityValue = $(this). val();
@@ -978,12 +994,14 @@ if(isset($_POST['delete_student']))
 
                 if (typedCityValue != "")
                 {
-                    $.post("../ajax/ajaxCityAutoComplete.php",{	stateId:selectedStateValueArray[1],searchText:typedCityValue},function(data,status){
+                    $.post("../ajax/ajaxCityAutoComplete.php",{	stateId:selectedStateValueArray[1],searchText:typedCityValue},function(data,status)
+                    {
                         $('#countryList').fadeIn();
                         $("#countryList").html(data);
                     });
                 }
-                $(document).on('click', 'li', function(){
+                $(document).on('click', 'li', function()
+                {
                     $('#id_city').val($(this).text());
                     $('#countryList').fadeOut();
                     $('li').not(this).remove();
@@ -993,7 +1011,8 @@ if(isset($_POST['delete_student']))
 
             //[REGISTRATION] Dynamic Row
             var slno = $('#id_qualification_table tr').length ;
-            $('#id_add_btn').click(function(){
+            $('#id_add_btn').click(function()
+            {
                 console.log("clicked" ,slno);
                 var html = '';
                 html += '<tr><td><p>'+slno+'</p></td>';
@@ -1009,22 +1028,26 @@ if(isset($_POST['delete_student']))
 
             //if we dynamically add a button or element here it is remove button with class name remove. 
             //in this case we will use the following method to access the dynamically added html element.
-            $(document).on('click', '.remove', function(){
+            $(document).on('click', '.remove', function()
+            {
                 console.log("remove clicked");
                 $(this).closest('tr').remove();
 
                 // Update slno for remaining rows
-                $('#id_qualification_table tr').each(function(index) {
+                $('#id_qualification_table tr').each(function(index) 
+                {
                     $(this).find('td:first p').text(index);
                 });
                 slno -= 1;
             });
 
             //[REGISTRATION] Form submit validation; Checks for empty/null input values and give Alert
-            $(document).on('submit', '#reg_form', function(e){
+            $(document).on('submit', '#reg_form', function(e)
+            {
 
                 // Check each input in the form
-                $('#reg_form:visible').find('input, textarea, select').each(function() {
+                $('#reg_form:visible').find('input, textarea, select').each(function() 
+                {
                     // If the input is empty
                     if (!$(this).val()) 
                     {
@@ -1135,7 +1158,17 @@ if(isset($_POST['delete_student']))
 
         
         $(document).ready(function()
-        {
+        {   
+            //Preventing the modal become hide whe clicking outside the edges of modal content(transperant part)
+            $('#updateModal').modal({backdrop: 'static', keyboard: false}); 
+            $('.closeUpdateModalBtn').click(function() 
+            {
+                if (confirm('Do you want to close?')) 
+                {
+                    $('#updateModal').modal('hide');
+                }
+            });
+
             //[UPDATE] Changing state dropdown options as per the selected country
             $(document).on('change', '#id_update_country', function(e)
             {
@@ -1226,8 +1259,20 @@ if(isset($_POST['delete_student']))
 
                     if(firstHiddenInput != 'new')
                     {
-                        $(this).closest('tr').hide();
+                        var hiddenRow = $(this).closest('tr');
+                        hiddenRow.hide();
                         $(this).closest('tr').find('input[type="hidden"]:eq(1)').val(3);
+
+                        //This is to prevent the update form is not submitting because of there is an empty input field in removed (but existing in db) dynamic row
+                        //[bugFix]
+                        hiddenRow.find('input[type="text"]').each(function() 
+                        {
+                            if ($(this).val() === '') 
+                            {
+                                $(this).val('dummyData');
+                            }
+                        });
+
                     }
 
                     $('#id_update_qualification_table tr:visible').each(function(index) 
@@ -1244,6 +1289,39 @@ if(isset($_POST['delete_student']))
             $('#updateForm').on('submit', function(e)
             {
                 e.preventDefault();
+                $('#updateForm:visible').find('input[type!="file"], textarea, select').css('border', '');
+
+                let hasEmptyField = false;
+                // Check each input in the form
+                $('#updateForm:visible').find('input, textarea, select').each(function() 
+                {
+                    if ($(this).attr('type') === 'file') {
+                        return true; // Continue to the next iteration of the loop
+                    }
+                    // If the input is empty
+                    if (!$(this).val()) 
+                    {
+                        
+                        // Optionally, you can show an alert or highlight the empty field
+                        alert('Please fill all the fields');
+                        $(this).css('border', '1px solid red');
+                        hasEmptyField = true;
+                        // Exit the loop
+                        return false;
+                    }
+                });
+
+                if (hasEmptyField) {
+                    return false;
+                }
+
+                if (!$('input[name="gender"]:checked').length) 
+                {
+                    //e.preventDefault();
+                    alert('Please select a radio option');
+                    return false;
+                }
+
                 let formData = new FormData(this);
                 
                 if($('#update_profile_pic')[0].files[0])
@@ -1273,11 +1351,12 @@ if(isset($_POST['delete_student']))
                     dataType:"JSON",
                     processData: false,
                     contentType: false,
-                    success: function(data) {
+                    success: function(data) 
+                    {
+                        console.log("submitted");
                         // This should contain the server's response
                         $("#updateModal").modal("hide");
                         location.reload();
-
                     }
                 });
             });
