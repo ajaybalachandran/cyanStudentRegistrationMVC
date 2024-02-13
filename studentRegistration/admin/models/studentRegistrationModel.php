@@ -141,7 +141,7 @@ class studentRegistrationModel{
         return $result;
     }
 
-    public function deleteStudent($stud_id){
+    public function deleteStudent($studId){
         global $conn;
         $sql = "UPDATE student
         JOIN qualifications ON student.studentId = qualifications.studentId
@@ -149,7 +149,7 @@ class studentRegistrationModel{
         SET student.status = 0,
             qualifications.status = 0,
             hobbies.status = 0
-        WHERE student.studentId = $stud_id";
+        WHERE student.studentId = $studId";
         $result = mysqli_query($conn,$sql);
         return $result;
     }

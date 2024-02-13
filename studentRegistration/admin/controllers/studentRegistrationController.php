@@ -75,10 +75,10 @@ class studentRegistrationController{
                     
                     <form action="" method="post" class="deleteStudentForm d-inline" id="DeleteStud">
                         
-                            <input name="stud_id" type="hidden" value="'.$studentId.'">
+                            <input name="studId" type="hidden" value="'.$studentId.'">
                         
                         
-                        <button type="submit" name="delete_student" class="btn btn-sm btn-danger" style="display:inline">Delete</button>
+                        <button type="submit" name="deleteStudent" class="btn btn-sm btn-danger" style="display:inline">Delete</button>
                     </form>
                     
                     </td>
@@ -112,9 +112,9 @@ class studentRegistrationController{
         move_uploaded_file($imageFileTmp, $imageUrl);
     }
 
-    public function deleteStudent($stud_id){
+    public function deleteStudent($studId){
         $model = new studentRegistrationModel();
-        $result = $model->deleteStudent($stud_id);
+        $result = $model->deleteStudent($studId);
         return $result;
     }
 }

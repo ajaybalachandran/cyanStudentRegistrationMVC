@@ -31,7 +31,7 @@ if(isset($_POST['submit']))
     $yopArray                   =       $_POST['yop'];
 
     //Image file upload
-    $image                      =       $_FILES['profile_image'];
+    $image                      =       $_FILES['profileImage'];
     $imageFileName              =       $image['name'];
     $imageFileError             =       $image['error'];
     $imageFileTmp               =       $image['tmp_name'];
@@ -73,9 +73,9 @@ if(isset($_POST['submit']))
     header('location:studentRegistrationView.php');
 }
 
-if(isset($_POST['delete_student']))
+if(isset($_POST['deleteStudent']))
 {
-    $id = $_POST['stud_id'];
+    $id = $_POST['studId'];
     $result = $studentRegistrationObj->deleteStudent($id);
     if($result)
     {
@@ -112,7 +112,7 @@ if(isset($_POST['delete_student']))
                             <a class="nav-link active" aria-current="page" href="#">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./index2.php">Register</a>
+                            <a class="nav-link" href="#">Register</a>
                         </li>
                     </ul>
                 </div>
@@ -131,15 +131,15 @@ if(isset($_POST['delete_student']))
                             <div class="col d-flex justify-content-center align-items-center " >
                                 <div class="reg bg-light  px-5 py-3 border border-secondary-subtle rounded">
                                     <!-- Form Started -->
-                                    <form action="" method="POST" enctype="multipart/form-data" id="reg_form"> 
+                                    <form action="" method="POST" enctype="multipart/form-data" id="idRegistrationForm"> 
                                         <div class="row g-0 mb-4" >
-                                            <div class="col-1 main_heading_side"></div>
+                                            <div class="col-1 mainHeadingSide"></div>
                                             <div class="col-10">
                                                 <div class="text-center position-relative">
                                                     <h2 class="text-uppercase main_heading" style="margin: 0;">Registration Form</h2>
                                                 </div>
                                             </div>
-                                            <div class="col-1 d-flex align-items-center justify-content-center main_heading_side">
+                                            <div class="col-1 d-flex align-items-center justify-content-center mainHeadingSide">
                                                 <div class="">
                                                     <button class="btn btn btn-outline-danger closeRegModalBtn" type="button" >
                                                         <i class="fa-solid  fa-rectangle-xmark "></i>
@@ -156,22 +156,22 @@ if(isset($_POST['delete_student']))
                                                 <div class="col-lg-6 pe-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="id_reg_no" class="fw-semibold">Registration No</label>
+                                                            <label for="IdRegNo" class="fw-semibold">Registration No</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input class="input_fields" type="number" name="registrationNumber" id="id_reg_no" style="width: 100%;">
+                                                            <input class="inputFields" type="number" name="registrationNumber" id="IdRegNo" style="width: 100%;">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 ps-lg-5">
                                                     <div class="row">
                                                         <div class="col-4">
-                                                            <img id="imagePreview" src="../images/dummy_prof.png" alt="Image Preview" class="img-fluid me-0 dummy_img" style="max-width: 100px;">
+                                                            <img id="imagePreview" src="../images/dummy_prof.png" alt="Image Preview" class="img-fluid me-0 dummyImg" style="max-width: 100px;">
                                                         </div>
                                                         <div class="col-8">
                                                             <div class="row align-items-center" style="height: 100%;">
                                                                 <div class="col">
-                                                                    <input type="file" name="profile_image" class="input_fields file_upload_btn" style="border: none;">
+                                                                    <input type="file" name="profileImage" class="inputFields file_upload_btn" style="border: none;">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -188,7 +188,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_first_name" class="fw-semibold">First Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="firstName" class="input_fields" id="id_first_name" placeholder="">
+                                                            <input type="text" name="firstName" class="inputFields" id="id_first_name" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -198,7 +198,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_lname" class="fw-semibold">Last Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="lastName" class="input_fields" id="id_lname" placeholder="">
+                                                            <input type="text" name="lastName" class="inputFields" id="id_lname" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -212,7 +212,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_father_name" class="fw-semibold">Father's Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="fathersName" class="input_fields" id="id_father_name" placeholder="">
+                                                            <input type="text" name="fathersName" class="inputFields" id="id_father_name" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -222,7 +222,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_mother_name" class="fw-semibold">Mother's Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="mothersName" class="input_fields" id="id_mother_name" placeholder="">
+                                                            <input type="text" name="mothersName" class="inputFields" id="id_mother_name" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -236,7 +236,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_dob" class="fw-semibold">Date Of Birth</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="date" name="dob" class="input_fields" id="id_dob" >
+                                                            <input type="date" name="dob" class="inputFields" id="id_dob" >
                                                         </div>
                                                     </div>
                                                 </div>
@@ -246,7 +246,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_mob" class="fw-semibold">Mobile</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="number" name="mobile" class="input_fields" id="id_mob" placeholder="">
+                                                            <input type="number" name="mobile" class="inputFields" id="id_mob" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -268,10 +268,10 @@ if(isset($_POST['delete_student']))
                                                 <div class="col-lg-6 ps-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="id_country" class="fw-semibold">Country</label>
+                                                            <label for="idCountry" class="fw-semibold">Country</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <select name="country"  id="id_country">
+                                                            <select name="country"  id="idCountry">
                                                                 <option value="">Choose Country</option>
                                                                 <!-- Fetch Available Countries From Database and Display as Dropdown -->
                                                                 <?php 
@@ -290,11 +290,11 @@ if(isset($_POST['delete_student']))
                                                 <div class="col-lg-6 pe-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="id_state" class="fw-semibold">State</label>
+                                                            <label for="idState" class="fw-semibold">State</label>
                                                         </div>
                                                         <div class="col-lg-8">
                                                             <!-- States options are fetched from db using ajax while onchange country -->
-                                                            <select name="state" id="id_state">
+                                                            <select name="state" id="idState">
                                                                 <option value="">Choose State</option>
                                                             </select>
                                                         </div>
@@ -303,11 +303,14 @@ if(isset($_POST['delete_student']))
                                                 <div class="col-lg-6 ps-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="id_city" class="fw-semibold">City</label>
+                                                            <label for="idCity" class="fw-semibold">City</label>
                                                         </div>
                                                         <div class="col-lg-8 city_names">
-                                                            <input type="text" name="city" class="input_fields" id="id_city" autocomplete="off">
-                                                            <div  id="countryList"></div>
+                                                            <input type="text" name="city" class="inputFields" id="idCity" autocomplete="off">
+                                                            <!-- In ths div city names are populated -->
+                                                            <div  id="cityList">
+
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -322,7 +325,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_pin" class="fw-semibold">Pincode</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="number" name="pinCode" class="input_fields" id="id_pin" placeholder="">
+                                                            <input type="number" name="pinCode" class="inputFields" id="id_pin" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -332,7 +335,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_email" class="fw-semibold">Email</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="email" name="email" class="input_fields" id="id_email" placeholder="">
+                                                            <input type="email" name="email" class="inputFields" id="id_email" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -461,13 +464,13 @@ if(isset($_POST['delete_student']))
                                     <!-- Form Started -->
                                     <form class="studform" id="updateForm" enctype="multipart/form-data">
                                         <div class="row g-0 mb-4" >
-                                            <div class="col-1 main_heading_side"></div>
+                                            <div class="col-1 mainHeadingSide"></div>
                                             <div class="col-10">
                                                 <div class="text-center position-relative">
                                                     <h2 class="text-uppercase main_heading" style="margin: 0;">Update Details</h2>
                                                 </div>
                                             </div>
-                                            <div class="col-1 d-flex align-items-center justify-content-center main_heading_side">
+                                            <div class="col-1 d-flex align-items-center justify-content-center mainHeadingSide">
                                                 <div class="">
                                                     <button class="btn btn btn-outline-danger closeUpdateModalBtn" type="button">
                                                         <i class="fa-solid  fa-rectangle-xmark "></i>
@@ -483,22 +486,22 @@ if(isset($_POST['delete_student']))
                                                 <div class="col-lg-6 pe-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="update_id_reg_no" class="fw-semibold">Registration No</label>
+                                                            <label for="IdRegNoUpdate" class="fw-semibold">Registration No</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input class="input_fields" type="number" name="reg_no" id="update_id_reg_no" style="width: 100%;">
+                                                            <input class="inputFields" type="number" name="reg_no" id="IdRegNoUpdate" style="width: 100%;">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 ps-lg-5">
                                                     <div class="row">
                                                         <div class="col-4">
-                                                            <img id="UpdateimagePreview" src="../images/dummy_prof.png" alt="Image Preview" class="img-fluid me-0 dummy_img" style="max-width: 100px;">
+                                                            <img id="UpdateimagePreview" src="../images/dummy_prof.png" alt="Image Preview" class="img-fluid me-0 dummyImg" style="max-width: 100px;">
                                                         </div>
                                                         <div class="col-8">
                                                             <div class="row align-items-center" style="height: 100%;">
                                                                 <div class="col">
-                                                                    <input type="file" name="name_update_profile_image" id="update_profile_pic" class="input_fields file_upload_btn" style="border: none;">
+                                                                    <input type="file" name="nameUpdateProfileImage" id="update_profile_pic" class="inputFields file_upload_btn" style="border: none;">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -515,7 +518,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_update_first_name" class="fw-semibold">First Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="fname" class="input_fields" id="id_update_first_name" placeholder="">
+                                                            <input type="text" name="fname" class="inputFields" id="id_update_first_name" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -525,7 +528,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_update_lname" class="fw-semibold">Last Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="lname" class="input_fields" id="id_update_lname" placeholder="">
+                                                            <input type="text" name="lname" class="inputFields" id="id_update_lname" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -539,7 +542,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_update_father_name" class="fw-semibold">Father's Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="father_name" class="input_fields" id="id_update_father_name" placeholder="">
+                                                            <input type="text" name="father_name" class="inputFields" id="id_update_father_name" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -549,7 +552,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_update_mother_name" class="fw-semibold">Mother's Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="mother_name" class="input_fields" id="id_update_mother_name" placeholder="">
+                                                            <input type="text" name="mother_name" class="inputFields" id="id_update_mother_name" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -563,7 +566,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_update_dob" class="fw-semibold">Date Of Birth</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="date" name="dob" class="input_fields" id="id_update_dob" >
+                                                            <input type="date" name="dob" class="inputFields" id="id_update_dob" >
                                                         </div>
                                                     </div>
                                                 </div>
@@ -573,7 +576,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_update_mob" class="fw-semibold">Mobile</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="number" name="mobile" class="input_fields" id="id_update_mob" placeholder="">
+                                                            <input type="number" name="mobile" class="inputFields" id="id_update_mob" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -628,11 +631,11 @@ if(isset($_POST['delete_student']))
                                                 <div class="col-lg-6 ps-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="id_update_city" class="fw-semibold">City</label>
+                                                            <label for="idUpdateCity" class="fw-semibold">City</label>
                                                         </div>
                                                         <div class="col-lg-8 city_names_update">
-                                                            <input type="text" name="city" class="input_fields" id="id_update_city" autocomplete="off">
-                                                            <div  id="countryListUpdate"></div>
+                                                            <input type="text" name="city" class="inputFields" id="idUpdateCity" autocomplete="off">
+                                                            <div  id="cityListUpdate"></div>
                                                             <div id="cityIdPopulate"></div>
                                                         </div>
                                                     </div>
@@ -648,7 +651,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_update_pin" class="fw-semibold">Pincode</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="number" name="pin" class="input_fields" id="id_update_pin" placeholder="">
+                                                            <input type="number" name="pin" class="inputFields" id="id_update_pin" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -658,7 +661,7 @@ if(isset($_POST['delete_student']))
                                                             <label for="id_update_email" class="fw-semibold">Email</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="email" name="email" class="input_fields" id="id_update_email" placeholder="">
+                                                            <input type="email" name="email" class="inputFields" id="id_update_email" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -852,7 +855,7 @@ if(isset($_POST['delete_student']))
         {
             margin-bottom: 1rem;
         }  
-        .input_fields, textarea, select
+        .inputFields, textarea, select
         {
             width: 100%;
             height: auto; 
@@ -874,7 +877,7 @@ if(isset($_POST['delete_student']))
         {
             width: 100%;
         }
-        table tr .input_fields
+        table tr .inputFields
         {
             margin-right: 2px;
             border-bottom: 2px solid black;
@@ -894,7 +897,7 @@ if(isset($_POST['delete_student']))
             font-size: 15px;
             color: #fff;
         }
-        .dummy_img
+        .dummyImg
         {
             border: 2px solid black;
             border-radius: 10px;
@@ -906,7 +909,7 @@ if(isset($_POST['delete_student']))
             color: #fff;
             background: #333;
         }
-        .main_heading_side
+        .mainHeadingSide
         {
             background: #333;
         }
@@ -922,7 +925,7 @@ if(isset($_POST['delete_student']))
         {
             position: relative;
         }
-        #countryList, #countryListUpdate 
+        #cityList, #cityListUpdate 
         {
             position: absolute;
             left: 0;
@@ -953,57 +956,57 @@ if(isset($_POST['delete_student']))
             {
                 if (confirm('Do you want to close?')) 
                 {
-                    $('#reg_form').trigger("reset");
+                    $('#idRegistrationForm').trigger("reset");
                     $('#exampleModal').find('input[type!="file"], textarea, select').css('border', '');
                     $('#exampleModal').find('input[type="file"]').css('border', 'none');
                     $('#exampleModal').modal('hide');
                 }
             });
 
-            $(document).on('change', '#id_country', function(e)
+            $(document).on('change', '#idCountry', function(e)
             {
-                $('#id_city').val("");//[REGISTRATION] Changing the country dropdown options will remove the city name
-                let selectedCountryValue = $('#id_country').val();
+                $('#idCity').val("");//[REGISTRATION] Changing the country dropdown options will remove the city name
+                let selectedCountryValue = $('#idCountry').val();
                 let selectedCountryValueArray = selectedCountryValue.split("+")
                 
                 //ajax call
                 $.post("../ajax/ajaxGetStates.php",{countryId:selectedCountryValueArray[1]},function(data,status){
                     //Work only if got response data from ajax page
-                    $("#id_state option:gt(0)").remove();
-                    $('#id_state').append(data);
+                    $("#idState option:gt(0)").remove();
+                    $('#idState').append(data);
                 });
             });
 
             //[REGISTRATION] Changing the state dropdown options will remove the city name
-            $(document).on('change', '#id_state', function(e)
+            $(document).on('change', '#idState', function(e)
             {
-                $('#id_city').val("");
+                $('#idCity').val("");
             });
 
             //[REGISTRATION] City Auto Complete
-            $(document).on('keyup', '#id_city', function(e)
+            $(document).on('keyup', '#idCity', function(e)
             {
-                let selectedStateValue = $('#id_state').val();
+                let selectedStateValue = $('#idState').val();
                 let selectedStateValueArray = selectedStateValue.split("+")
                 var typedCityValue = $(this). val();
 
                 if(typedCityValue == '')
                 {
-                    $('#countryList').empty().fadeOut();
+                    $('#cityList').empty().fadeOut();
                 }
 
                 if (typedCityValue != "")
                 {
                     $.post("../ajax/ajaxCityAutoComplete.php",{	stateId:selectedStateValueArray[1],searchText:typedCityValue},function(data,status)
                     {
-                        $('#countryList').fadeIn();
-                        $("#countryList").html(data);
+                        $('#cityList').fadeIn();
+                        $("#cityList").html(data);
                     });
                 }
                 $(document).on('click', 'li', function()
                 {
-                    $('#id_city').val($(this).text());
-                    $('#countryList').fadeOut();
+                    $('#idCity').val($(this).text());
+                    $('#cityList').fadeOut();
                     $('li').not(this).remove();
                 });
                 
@@ -1042,11 +1045,11 @@ if(isset($_POST['delete_student']))
             });
 
             //[REGISTRATION] Form submit validation; Checks for empty/null input values and give Alert
-            $(document).on('submit', '#reg_form', function(e)
+            $(document).on('submit', '#idRegistrationForm', function(e)
             {
 
                 // Check each input in the form
-                $('#reg_form:visible').find('input, textarea, select').each(function() 
+                $('#idRegistrationForm:visible').find('input, textarea, select').each(function() 
                 {
                     // If the input is empty
                     if (!$(this).val()) 
@@ -1088,7 +1091,7 @@ if(isset($_POST['delete_student']))
                 var studentRecord = JSON.parse(data);
                 studentRecord.forEach(student => 
                 {
-                    $('#update_id_reg_no').val(student.registrationNumber);
+                    $('#IdRegNoUpdate').val(student.registrationNumber);
                     $('#id_update_first_name').val(student.firstName);
                     $('#id_update_lname').val(student.lastName);
                     $('#id_update_father_name').val(student.fathersName);
@@ -1105,7 +1108,7 @@ if(isset($_POST['delete_student']))
                         $('#id_update_state').val(student.stateName);
                     }); 
 
-                    $('#id_update_city').val(student.cityName);
+                    $('#idUpdateCity').val(student.cityName);
 
                     //Here we populate the existing id of the city in a hidden input field. it is coming from ajax response.
                     $("#cityIdPopulate").html(student.cityInfoHtml);
@@ -1179,7 +1182,7 @@ if(isset($_POST['delete_student']))
                 {
                     $("#id_update_state option:gt(0)").remove();
                     $('#id_update_state').append(data);
-                    $('#id_update_city').val("");
+                    $('#idUpdateCity').val("");
                 });
                 
             });
@@ -1187,12 +1190,12 @@ if(isset($_POST['delete_student']))
             //[UPDATE] Changing the state dropdown options will remove the city name
             $(document).on('change', '#id_update_state', function(e)
             {
-                $('#id_update_city').val("");
+                $('#idUpdateCity').val("");
             });
 
 
             //[UPDATE] City Auto Complete
-            $(document).on('keyup', '#id_update_city', function(e)
+            $(document).on('keyup', '#idUpdateCity', function(e)
             {
                 //removing the hidden city id while populating student details on update modal
                 $('#cityIdPopulate').remove();
@@ -1201,22 +1204,22 @@ if(isset($_POST['delete_student']))
 
                 if(typedCityValue == '')
                 {
-                    $('#countryListUpdate').empty().fadeOut();
+                    $('#cityListUpdate').empty().fadeOut();
                 }
 
                 if (typedCityValue != "")
                 {
                     $.post("../ajax/ajaxCityAutoComplete.php",{stateId:stateId, searchText:typedCityValue},function(data,status)
                     {
-                        $('#countryListUpdate').fadeIn();
-                        $("#countryListUpdate").html(data);
+                        $('#cityListUpdate').fadeIn();
+                        $("#cityListUpdate").html(data);
                     });
                 }
 
                 $(document).on('click', 'li', function()
                 {
-                    $('#id_update_city').val($(this).text());
-                    $('#countryListUpdate').fadeOut();
+                    $('#idUpdateCity').val($(this).text());
+                    $('#cityListUpdate').fadeOut();
                     $('li').not(this).remove();
                 });
             });
