@@ -98,6 +98,7 @@ if(isset($_POST['delete_student']))
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+
     <section class="header">
         <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
             <div class="container-fluid">
@@ -120,7 +121,8 @@ if(isset($_POST['delete_student']))
     </section>
 
     <section class="content">
-        <!-- ----------------------------------------------------------------------------------Registration Modal---------------------------------------------------------------------------------- -->
+
+        <!-- ---------------------------------------------------------------- [REGISTRATION MODAL] ---------------------------------------------------------------- -->
         <div class="modal fade modal-xl" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
             <div class="modal-dialog ">
                 <div class="modal-content">
@@ -445,9 +447,10 @@ if(isset($_POST['delete_student']))
                 </div>
             </div>
         </div>
+        <!-- ---------------------------------------------------------------- [REGISTRATION MODAL END] ---------------------------------------------------------------- -->
     
 
-        <!-- ------------------------------------------------------ Update modal ----------------------------------------------------- -->
+        <!-- ---------------------------------------------------------------- [UPDATE MODAL] ---------------------------------------------------------------- -->
         <div class="modal fade modal-xl" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true" >
             <div class="modal-dialog ">
                 <div class="modal-content">
@@ -758,6 +761,11 @@ if(isset($_POST['delete_student']))
             </div>
         </div>
 
+        <!-- ---------------------------------------------------------------- [UPDATE MODAL END] ---------------------------------------------------------------- -->
+
+
+        <!-- ---------------------------------------------------------------- [HOME PAGE STUDENT LIST] ---------------------------------------------------------------- -->
+
         <div class="container-fluid">
             <div class="card mt-3">
                 <h5 class="card-header card_header">
@@ -800,6 +808,8 @@ if(isset($_POST['delete_student']))
                 </div>
             </div>
         </div>
+        <!-- ---------------------------------------------------------------- [HOME PAGE STUDENT LIST END] ---------------------------------------------------------------- -->
+
     </section>
     <style>
         *{
@@ -932,16 +942,129 @@ if(isset($_POST['delete_student']))
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script>
-        function GetDetails(updateid){
-            // console.log(updateid)
-            $("#hiddendata").val(updateid);
+
+        //<-------------------------------------------------------------------------- [REGISTRATION] -------------------------------------------------------------------------->
+
+        //[REGISTRATION] Changing state dropdown options as per the selected country
+        $(document).ready(function(){
+            $(document).on('change', '#id_country', function(e){
+                $('#id_city').val("");//[REGISTRATION] Changing the country dropdown options will remove the city name
+                let selectedCountryValue = $('#id_country').val();
+                let selectedCountryValueArray = selectedCountryValue.split("+")
+                
+                //ajax call
+                $.post("../ajax/ajaxGetStates.php",{countryId:selectedCountryValueArray[1]},function(data,status){
+                    //Work only if got response data from ajax page
+                    $("#id_state option:gt(0)").remove();
+                    $('#id_state').append(data);
+                });
+            });
+
+            //[REGISTRATION] Changing the state dropdown options will remove the city name
+            $(document).on('change', '#id_state', function(e){
+                $('#id_city').val("");
+            });
+
+            //[REGISTRATION] City Auto Complete
+            $(document).on('keyup', '#id_city', function(e){
+                let selectedStateValue = $('#id_state').val();
+                let selectedStateValueArray = selectedStateValue.split("+")
+                var typedCityValue = $(this). val();
+
+                if(typedCityValue == '')
+                {
+                    $('#countryList').empty().fadeOut();
+                }
+
+                if (typedCityValue != "")
+                {
+                    $.post("../ajax/ajaxCityAutoComplete.php",{	stateId:selectedStateValueArray[1],searchText:typedCityValue},function(data,status){
+                        $('#countryList').fadeIn();
+                        $("#countryList").html(data);
+                    });
+                }
+                $(document).on('click', 'li', function(){
+                    $('#id_city').val($(this).text());
+                    $('#countryList').fadeOut();
+                    $('li').not(this).remove();
+                });
+                
+            });
+
+            //[REGISTRATION] Dynamic Row
+            var slno = $('#id_qualification_table tr').length ;
+            $('#id_add_btn').click(function(){
+                console.log("clicked" ,slno);
+                var html = '';
+                html += '<tr><td><p>'+slno+'</p></td>';
+                html += '<td><input type="text" name="examination[]" class="table_input" style="margin-right: 5px;"></td>';
+                html += '<td><input type="text" name="board[]" class="table_input" style="margin-right: 5px;"></td>';
+                html += '<td><input type="text" name="percentage[]" class="table_input" style="margin-right: 5px;"></td>';
+                html += '<td><input type="text" name="yop[]" class="table_input" style="margin-right: 5px;"></td>';
+                html += '<td><button type="button" class="btn btn-sm btn-danger remove" name="remove"><span><i class="fa-solid fa-minus"></i></span></button></td>';
+                html += '</tr>';
+                $('#id_qualification_table').append(html);
+                slno += 1;
+            });
+
+            //if we dynamically add a button or element here it is remove button with class name remove. 
+            //in this case we will use the following method to access the dynamically added html element.
+            $(document).on('click', '.remove', function(){
+                console.log("remove clicked");
+                $(this).closest('tr').remove();
+
+                // Update slno for remaining rows
+                $('#id_qualification_table tr').each(function(index) {
+                    $(this).find('td:first p').text(index);
+                });
+                slno -= 1;
+            });
+
+            //[REGISTRATION] Form submit validation; Checks for empty/null input values and give Alert
+            $(document).on('submit', '#reg_form', function(e){
+
+                // Check each input in the form
+                $('#reg_form:visible').find('input, textarea, select').each(function() {
+                    // If the input is empty
+                    if (!$(this).val()) 
+                    {
+                        // Prevent form submission
+                        e.preventDefault();
+                        // Optionally, you can show an alert or highlight the empty field
+                        alert('Please fill all the fields');
+                        $(this).css('border', '1px solid red');
+                        // Exit the loop
+                        return false;
+                    }
+                });
+
+                if (!$('input[name="gender"]:checked').length) 
+                {
+                    e.preventDefault();
+                    alert('Please select a radio option');
+                }
+
+            });
+
+        });
+
+        //<-------------------------------------------------------------------------- [REGISTRATION ENDS] -------------------------------------------------------------------------->
 
 
-            $.post("../ajax/ajaxGetStudentDetails.php",{update_id:updateid},function(data,status){
-                // console.log("this is response data")
-                console.log(data);
-                var userid = JSON.parse(data);
-                userid.forEach(student => {
+
+        //<------------------------------------------------------------------------------- [UPDATE] ------------------------------------------------------------------------------->
+
+        //[UPDATE] Fetch the details of a student and populates the details in UpdateForm
+        function GetDetails(updateStudentId)
+        {
+            $("#hiddendata").val(updateStudentId);
+
+            $.post("../ajax/ajaxGetStudentDetails.php",{updateStudentId:updateStudentId},function(data,status)
+            {
+                //console.log(data);
+                var studentRecord = JSON.parse(data);
+                studentRecord.forEach(student => 
+                {
                     $('#update_id_reg_no').val(student.registrationNumber);
                     $('#id_update_first_name').val(student.firstName);
                     $('#id_update_lname').val(student.lastName);
@@ -952,8 +1075,8 @@ if(isset($_POST['delete_student']))
                     $('#id_update_address').val(student.address);
                     $('#id_update_country').val(student.countryName);
 
-                    $.post("../ajax/ajaxGetStatesUpdate.php",{countryId:student.countryId},function(data,status){
-                        //let matched_states = JSON.parse(data);
+                    $.post("../ajax/ajaxGetStatesUpdate.php",{countryId:student.countryId},function(data,status)
+                    {
                         $("#id_update_state option:gt(0)").remove();
                         $('#id_update_state').append(data);
                         $('#id_update_state').val(student.stateName);
@@ -977,13 +1100,13 @@ if(isset($_POST['delete_student']))
                     $('#id_update_travel').prop('checked', student.travel == 1 ? true : false);
 
                     var qualificationsArray = student.qualifications;
-                    console.log(qualificationsArray);
-                    //deynamic row
+                    //console.log(qualificationsArray);
+
+                    //Existing qualifications Deynamic Row
                     var slno = 1 ;
                     $("#id_update_qualification_table").find("tr:gt(0)").remove();
                     for(i in qualificationsArray)
                     {
-                        // console.log(qualificationsArray[i]);
                         var html = '';
                         html += '<tr><td><p>'+slno+'</p><input type="hidden" name="qualification_id[]" id="existing_update_hidden_id'+slno+'"></td>';
                         html += '<td><input type="text" name="examination[]" id="id_update_examination'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
@@ -1003,57 +1126,145 @@ if(isset($_POST['delete_student']))
                         slno += 1;
                     }
                    
-                    console.log("-------------------------");
-                    
+                    //console.log("-------------------------");
                 });
               
             });
             $("#updateModal").modal("show");
         }
 
-        //dropdown update
-        $(document).ready(function(){
-            $(document).on('change', '#id_update_country', function(e){
+        
+        $(document).ready(function()
+        {
+            //[UPDATE] Changing state dropdown options as per the selected country
+            $(document).on('change', '#id_update_country', function(e)
+            {
                 let c_id = $(this).find("option:selected").data("country-id");
-                console.log("country id is: "+ c_id)
+                //console.log("country id is: "+ c_id)
                 
-                $.post("../ajax/ajaxGetStatesUpdate.php",{countryId:c_id},function(data,status){
-                    //var states = JSON.parse(data);
+                $.post("../ajax/ajaxGetStatesUpdate.php",{countryId:c_id},function(data,status)
+                {
                     $("#id_update_state option:gt(0)").remove();
                     $('#id_update_state').append(data);
-                    // $('#id_country').val(c_array[0])
                     $('#id_update_city').val("");
                 });
                 
             });
-        });
 
-        $(document).on('change', '#id_update_state', function(e){
-            $('#id_update_city').val("");
-        });
+            //[UPDATE] Changing the state dropdown options will remove the city name
+            $(document).on('change', '#id_update_state', function(e)
+            {
+                $('#id_update_city').val("");
+            });
 
 
-        //while submits the update form
-        $(document).ready(function(){
-            $('#updateForm').on('submit', function(e){
+            //[UPDATE] City Auto Complete
+            $(document).on('keyup', '#id_update_city', function(e)
+            {
+                //removing the hidden city id while populating student details on update modal
+                $('#cityIdPopulate').remove();
+                let stateId = $('#id_update_state option:selected').data('state-id');
+                var typedCityValue = $(this). val();
+
+                if(typedCityValue == '')
+                {
+                    $('#countryListUpdate').empty().fadeOut();
+                }
+
+                if (typedCityValue != "")
+                {
+                    $.post("../ajax/ajaxCityAutoComplete.php",{stateId:stateId, searchText:typedCityValue},function(data,status)
+                    {
+                        $('#countryListUpdate').fadeIn();
+                        $("#countryListUpdate").html(data);
+                    });
+                }
+
+                $(document).on('click', 'li', function()
+                {
+                    $('#id_update_city').val($(this).text());
+                    $('#countryListUpdate').fadeOut();
+                    $('li').not(this).remove();
+                });
+            });
+
+
+            //[UPDATE] Dynamic Row
+            $("#updateModal").on('shown.bs.modal', function()
+            {
+                // Initialize slno to the number of existing rows 
+                var slno = $('#id_update_qualification_table tr').length ;
+                var count = 1;
+
+                $('#id_update_add_btn').click(function()
+                {
+                    var html = '';
+                    html += '<tr class="dynamic-element"><td><p>'+slno+'</p><input type="hidden" name="qualification_id[]" id="update_hidden_id'+count+'"></td>';
+                    html += '<td><input type="text" name="examination[]" class="table_input" style="margin-right: 5px;"></td>';
+                    html += '<td><input type="text" name="board[]" class="table_input" style="margin-right: 5px;"></td>';
+                    html += '<td><input type="text" name="percentage[]" class="table_input" style="margin-right: 5px;"></td>';
+                    html += '<td><input type="text" name="yop[]" class="table_input" style="margin-right: 5px;"></td>';
+                    html += '<td><button type="button" class="btn btn-sm btn-danger update_remove" name="update_remove"><span><i class="fa-solid fa-minus"></i></span></button>';
+                    html += '<input type="hidden" name="status[]" id="new_hidden_status'+count+'" value=2></td>'
+                    html += '</tr>';
+                    $('#id_update_qualification_table').append(html);
+                    $('#update_hidden_id'+count).val("new");
+                    slno += 1;
+                    count += 1;
+                });
+
+                $(document).on('click', '.update_remove', function()
+                {
+                    var firstHiddenInput = $(this).closest('tr').find('input[type="hidden"]:eq(0)').val();//qid
+                    var secondHiddenInput = $(this).closest('tr').find('input[type="hidden"]:eq(1)').val();//status
+                    //console.log(firstHiddenInput, secondHiddenInput)
+
+                    if(firstHiddenInput=='new')
+                    {
+                        $(this).closest('tr').remove();
+                    }
+
+                    if(firstHiddenInput != 'new')
+                    {
+                        $(this).closest('tr').hide();
+                        $(this).closest('tr').find('input[type="hidden"]:eq(1)').val(3);
+                    }
+
+                    $('#id_update_qualification_table tr:visible').each(function(index) 
+                    {
+                        $(this).find('td:first p').text(index);
+                    });
+                    slno -= 1;
+                });
+
+            });
+
+
+            //[UPDATE] Update Form submission ajax call, update with image / without image logic
+            $('#updateForm').on('submit', function(e)
+            {
                 e.preventDefault();
                 let formData = new FormData(this);
                 
-                if($('#update_profile_pic')[0].files[0]){
-                    // console.log("image is here")
+                if($('#update_profile_pic')[0].files[0])
+                {
                     formData.append('img', $('#update_profile_pic')[0].files[0]);
-                }else{
+                }
+                else
+                {
                     formData.append('no_image', 'no image is selected');
                 }
                 let countryId = $('#id_update_country').find("option:selected").data("country-id");
                 let stateId = $('#id_update_state').find("option:selected").data("state-id");
-                console.log(countryId,stateId)
+                //console.log(countryId,stateId)
+
+                //append countryId and stateId in formData
                 formData.append('countryId', countryId);
                 formData.append('stateId', stateId);
                 
-                for (let pair of formData.entries()) {
-                    console.log(pair[0] + ': ' + pair[1]);
-                }
+                // for (let pair of formData.entries()) {
+                //     console.log(pair[0] + ': ' + pair[1]);
+                // }
                 
                 $.ajax({
                     url: '../ajax/ajaxUpdateStudentDetails.php',
@@ -1063,8 +1274,6 @@ if(isset($_POST['delete_student']))
                     processData: false,
                     contentType: false,
                     success: function(data) {
-                        // console.log("success")
-                        // console.log(data)
                         // This should contain the server's response
                         $("#updateModal").modal("hide");
                         location.reload();
@@ -1072,258 +1281,12 @@ if(isset($_POST['delete_student']))
                     }
                 });
             });
-        });
 
-
-
-        $("#updateModal").on('shown.bs.modal', function(){
-
-            // Initialize slno to the number of existing rows 
-            var slno = $('#id_update_qualification_table tr').length ;
-            // console.log("this is the tr len:" + slno)
-            var count = 1;
-
-            $('#id_update_add_btn').click(function(){
-                // console.log("clicked" ,slno);
-                var html = '';
-                html += '<tr class="dynamic-element"><td><p>'+slno+'</p><input type="hidden" name="qualification_id[]" id="update_hidden_id'+count+'"></td>';
-                html += '<td><input type="text" name="examination[]" class="table_input" style="margin-right: 5px;"></td>';
-                html += '<td><input type="text" name="board[]" class="table_input" style="margin-right: 5px;"></td>';
-                html += '<td><input type="text" name="percentage[]" class="table_input" style="margin-right: 5px;"></td>';
-                html += '<td><input type="text" name="yop[]" class="table_input" style="margin-right: 5px;"></td>';
-                html += '<td><button type="button" class="btn btn-sm btn-danger update_remove" name="update_remove"><span><i class="fa-solid fa-minus"></i></span></button>';
-                html += '<input type="hidden" name="status[]" id="new_hidden_status'+count+'" value=2></td>'
-                html += '</tr>';
-                $('#id_update_qualification_table').append(html);
-                $('#update_hidden_id'+count).val("new");
-                
-                
-                slno += 1;
-                count += 1;
+            $('#updateModal').on('hidden.bs.modal', function () 
+            {
+                location.reload();
             });
 
-            
-            $(document).on('click', '.update_remove', function(){
-                console.log("remove clicked\n");
-                // var remove_id = $(this).closest('tr').find('input[type="hidden"]').val();
-                // console.log("this is remove id"+remove_id)
-
-                var firstHiddenInput = $(this).closest('tr').find('input[type="hidden"]:eq(0)').val();//qid
-                var secondHiddenInput = $(this).closest('tr').find('input[type="hidden"]:eq(1)').val();//status
-                console.log(firstHiddenInput, secondHiddenInput)
-                if(firstHiddenInput=='new'){
-                    $(this).closest('tr').remove();
-                }
-                if(firstHiddenInput != 'new'){
-                    $(this).closest('tr').hide();
-                    $(this).closest('tr').find('input[type="hidden"]:eq(1)').val(3);
-
-                }
-
-                
-
-                $('#id_update_qualification_table tr:visible').each(function(index) {
-                    $(this).find('td:first p').text(index);
-                });
-                slno -= 1;
-                
-                
-
-            });
-        });
-
-        $('#updateModal').on('hidden.bs.modal', function () {
-            location.reload();
-        });
-
-        // $('#updateModal').on('hidden.bs.modal', function () {
-        //     // Remove dynamically added elements
-        //     $("#id_update_qualification_table").find("tr:gt(0)").remove();
-        // });
-    </script>
-    <script>
-        $(document).ready(function(){
-            // Initialize slno to the number of existing rows 
-            var slno = $('#id_qualification_table tr').length ;
-
-            $('#id_add_btn').click(function(){
-                console.log("clicked" ,slno);
-                var html = '';
-                html += '<tr><td><p>'+slno+'</p></td>';
-                html += '<td><input type="text" name="examination[]" class="table_input" style="margin-right: 5px;"></td>';
-                html += '<td><input type="text" name="board[]" class="table_input" style="margin-right: 5px;"></td>';
-                html += '<td><input type="text" name="percentage[]" class="table_input" style="margin-right: 5px;"></td>';
-                html += '<td><input type="text" name="yop[]" class="table_input" style="margin-right: 5px;"></td>';
-                html += '<td><button type="button" class="btn btn-sm btn-danger remove" name="remove"><span><i class="fa-solid fa-minus"></i></span></button></td>';
-                html += '</tr>';
-                $('#id_qualification_table').append(html);
-                slno += 1;
-            });
-
-            //if we dynamically add a button or element here it is remove button with class name remove. 
-            //in this case we will use the following method to access the dynamically added html element.
-
-            // $('.remove').click(function(){
-            //     console.log("remove clicked");
-            //     //this is not working because of button with .remove class is dynamically added 
-            // });
-
-            $(document).on('click', '.remove', function(){
-                console.log("remove clicked");
-                $(this).closest('tr').remove();
-
-                // Update slno for remaining rows
-                $('#id_qualification_table tr').each(function(index) {
-                    $(this).find('td:first p').text(index);
-                });
-
-                slno -= 1;
-            });
-
-            // $('#reg_form').submit(function(e) {
-            //     // Check each input in the form
-            //     $('input, textarea, select').each(function() {
-            //         // If the input is empty
-            //         if (!$(this).val()) {
-            //             // Prevent form submission
-            //             e.preventDefault();
-            //             // Optionally, you can show an alert or highlight the empty field
-            //             alert('Please fill all the fields');
-            //             $(this).css('border', '1px solid red');
-            //             // Exit the loop
-            //             return false;
-            //         }
-            //     });
-            //     if (!$('input[name="gender"]:checked').length) {
-            //         e.preventDefault();
-            //         alert('Please select a radio option');
-            //     }
-                
-
-            // });
-        
-        });
-
-        //Registration form alert for empty values
-        $(document).on('submit', '#reg_form', function(e){
-
-            // Check each input in the form
-            $('#reg_form:visible').find('input, textarea, select').each(function() {
-                // If the input is empty
-                if (!$(this).val()) {
-                    // Prevent form submission
-                    e.preventDefault();
-                    // Optionally, you can show an alert or highlight the empty field
-                    alert('Please fill all the fields');
-                    $(this).css('border', '1px solid red');
-                    // Exit the loop
-                    return false;
-                }
-            });
-            if (!$('input[name="gender"]:checked').length) {
-                e.preventDefault();
-                alert('Please select a radio option');
-            }
-            
-
-        });
-
-        //dropdown registration
-        $(document).ready(function(){
-            $(document).on('change', '#id_country', function(e){
-                let c_datas = $('#id_country').val();
-                let c_array = c_datas.split("+")
-                // let c_value = $('#id_country').val();
-                console.log(c_array);
-                // $('#id_country').val(c_array[0])
-                
-                $.post("../ajax/ajaxGetStates.php",{country_id:c_array[1]},function(data,status){
-                    //var states = JSON.parse(data);
-                    $("#id_state option:gt(0)").remove();
-                    $('#id_state').append(data);
-
-                   
-                });
-                
-            });
-        });
-
-        //city auto complete registration
-
-            
-            $(document).on('keyup', '#id_city', function(e){
-                let s_datas = $('#id_state').val();
-                let s_array = s_datas.split("+")
-                // let s_value = $('#id_state').val();
-                var tvalue = $( this ). val();
-                if(tvalue == ''){
-                    $('#countryList').empty().fadeOut();
-                }
-                // console.log(tvalue, s_value)
-                if (tvalue != ""){
-                    $.post("../ajax/ajaxCityAutoComplete.php",{	stateId:s_array[1],searchText:tvalue},function(data,status){
-                        // var cities = JSON.parse(data);
-                        $('#countryList').fadeIn();
-                        $("#countryList").html(data);
-
-                        // for (let index in cities){
-                        //     console.log(cities[index].city_name);
-                        //     let html = '<p>'+cities[index].city_name+'</p>';
-                        //     $("#countryList").html(html);
-                        // }
-
-                    
-                        // $('#countryList').html('<p>'+cities[index].city_name+'</p>');
-            
-                    });
-                }
-                $(document).on('click', 'li', function(){
-                    $('#id_city').val($(this).text());
-                    $('#countryList').fadeOut();
-                    $('li').not(this).remove();
-                });
-                
-            });
-
-        
-        //city auto complete update 
-
-        $(document).on('keyup', '#id_update_city', function(e){
-            //removing the hidden city id while populating student details on update modal
-            $('#cityIdPopulate').remove();
-            let stateId = $('#id_update_state option:selected').data('state-id');
-            // let s_array = s_datas.split("+")
-            // let s_value = $('#id_state').val();
-            var tvalue = $( this ). val();
-            if(tvalue == ''){
-                $('#countryListUpdate').empty().fadeOut();
-            }
-            // console.log(tvalue, s_value)
-            if (tvalue != ""){
-                $.post("../ajax/ajaxCityAutoComplete.php",{stateId:stateId,searchText:tvalue},function(data,status){
-                    // var cities = JSON.parse(data);
-                    $('#countryListUpdate').fadeIn();
-                    $("#countryListUpdate").html(data);
-
-                    // for (let index in cities){
-                    //     console.log(cities[index].city_name);
-                    //     let html = '<p>'+cities[index].city_name+'</p>';
-                    //     $("#countryList").html(html);
-                    // }
-
-                
-                    // $('#countryList').html('<p>'+cities[index].city_name+'</p>');
-        
-                });
-            }
-            $(document).on('click', 'li', function(){
-                $('#id_update_city').val($(this).text());
-                $('#countryListUpdate').fadeOut();
-                $('li').not(this).remove();
-
-                
-            });
-            
         });
 
     </script>
