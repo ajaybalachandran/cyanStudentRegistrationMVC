@@ -1,10 +1,10 @@
 <?php
 include "../models/studentRegistrationModel.php"; 
-$model = new studentRegistrationModel();
+$objStudentRegistrationModel = new studentRegistrationModel();
 if(isset($_POST['countryId']))
 {
     $countryId          =       $_POST['countryId'];
-    $result             =       $model->getStates($countryId);
+    $result             =       $objStudentRegistrationModel->getStates($countryId);
     $dropdownOptions    =       '';
 
     while($row=mysqli_fetch_array($result))

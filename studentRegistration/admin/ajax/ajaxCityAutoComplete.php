@@ -1,12 +1,12 @@
 <?php
 include "../models/studentRegistrationModel.php"; 
-$model = new studentRegistrationModel();
+$objStudentRegistrationModel = new studentRegistrationModel();
 if(isset($_POST['stateId']))
 {
     $output     =   '';
     $stateId    =   $_POST['stateId'];
     $searchText =   $_POST['searchText'];
-    $result     =   $model->getCities($searchText, $stateId);
+    $result     =   $objStudentRegistrationModel->getCities($searchText, $stateId);
     $output     =   '<ul class="list-unstyled">';
     
     if(mysqli_num_rows($result)>0)

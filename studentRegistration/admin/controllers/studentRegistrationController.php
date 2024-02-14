@@ -6,31 +6,31 @@ class studentRegistrationController
     public function setStudent($registrationNumber, $imageUrl, $firstName, $lastName, $fathersName, $mothersName, $dob, 
                                 $mobile, $address, $countryId, $stateId, $cityId, $pinCode, $email, $gender)
     {
-        $model = new studentRegistrationModel();
-        $lastId = $model->setStudent($registrationNumber, $imageUrl, $firstName, $lastName, $fathersName, $mothersName, $dob, 
+        $objStudentRegistrationModel = new studentRegistrationModel();
+        $lastId = $objStudentRegistrationModel->setStudent($registrationNumber, $imageUrl, $firstName, $lastName, $fathersName, $mothersName, $dob, 
                                     $mobile, $address, $countryId, $stateId, $cityId, $pinCode, $email, $gender);
         return $lastId;
     }
 
     public function setHobbies($studentId, $reading, $music, $sports, $travel)
     {
-        $model = new studentRegistrationModel();
-        $result = $model->setHobbies($studentId, $reading, $music, $sports, $travel);
+        $objStudentRegistrationModel = new studentRegistrationModel();
+        $result = $objStudentRegistrationModel->setHobbies($studentId, $reading, $music, $sports, $travel);
         return $result;
        
     }
 
     public function setQualifications($studentId, $examination, $board, $percentage, $yop)
     {
-        $model = new studentRegistrationModel();
-        $result = $model->setQualifications($studentId, $examination, $board, $percentage, $yop);
+        $objStudentRegistrationModel = new studentRegistrationModel();
+        $result = $objStudentRegistrationModel->setQualifications($studentId, $examination, $board, $percentage, $yop);
         return $result;
     }
 
     public function getCountries()
     {
-        $model = new studentRegistrationModel();
-        $countries = $model->getCountries();
+        $objStudentRegistrationModel = new studentRegistrationModel();
+        $countries = $objStudentRegistrationModel->getCountries();
         $dropdownOptions = '';
         while($row=mysqli_fetch_assoc($countries))
         {
@@ -43,8 +43,8 @@ class studentRegistrationController
 
     public function getCountriesUpdate()
     {
-        $model = new studentRegistrationModel();
-        $countries = $model->getCountries();
+        $objStudentRegistrationModel = new studentRegistrationModel();
+        $countries = $objStudentRegistrationModel->getCountries();
         $dropdownOptions = '';
         while($row=mysqli_fetch_assoc($countries))
         {
@@ -57,8 +57,8 @@ class studentRegistrationController
 
     public function getStudents()
     {
-        $model = new studentRegistrationModel();
-        $students = $model->getStudents();
+        $objStudentRegistrationModel = new studentRegistrationModel();
+        $students = $objStudentRegistrationModel->getStudents();
         $studentsList = '';
         if($students->num_rows != 0)
         {
@@ -124,8 +124,8 @@ class studentRegistrationController
 
     public function deleteStudent($studId)
     {
-        $model = new studentRegistrationModel();
-        $result = $model->deleteStudent($studId);
+        $objStudentRegistrationModel = new studentRegistrationModel();
+        $result = $objStudentRegistrationModel->deleteStudent($studId);
         return $result;
     }
 }

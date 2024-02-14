@@ -1,11 +1,11 @@
 <?php
 
 include "../models/studentRegistrationModel.php"; 
-$model = new studentRegistrationModel();
+$objStudentRegistrationModel = new studentRegistrationModel();
 if(isset($_POST['updateStudentId']))
 {
     $updateStudentId = $_POST['updateStudentId'];
-    $result = $model->getStudentRecord($updateStudentId);
+    $result = $objStudentRegistrationModel->getStudentRecord($updateStudentId);
     $finalResult = array();
 
     foreach ($result as $row) 

@@ -1,7 +1,7 @@
 <?php
 //require_once "../models/studentRegistrationModel.php";
 require_once "../controllers/studentRegistrationController.php";
-$model = new studentRegistrationModel();
+$objStudentRegistrationModel = new studentRegistrationModel();
 $studentRegistrationObj = new studentRegistrationController();
 
 if(isset($_FILES['withImage']) || isset($_POST['withoutImage']))
@@ -45,7 +45,7 @@ if(isset($_FILES['withImage']) || isset($_POST['withoutImage']))
         if($error === 0)
         {
             $uploadImage = $studentRegistrationObj-> imageFileUpload($imgName);
-            $result = $model->updateStudentDetailsWithImage($registrationNumber, $uploadImage, $firstName, $lastName, $fathersName, $mothersName, $dob, 
+            $result = $objStudentRegistrationModel->updateStudentDetailsWithImage($registrationNumber, $uploadImage, $firstName, $lastName, $fathersName, $mothersName, $dob, 
                                                             $mobile, $address, $country, $state, $city, $pincode, $email, $gender, $studentUpdateId);
             if(!$result)
             {
@@ -65,7 +65,7 @@ if(isset($_FILES['withImage']) || isset($_POST['withoutImage']))
 
     if(isset($_POST['withoutImage']))
     {
-        $result = $model->updateStudentDetailsWithoutImage($registrationNumber, $firstName, $lastName, $fathersName, $mothersName, $dob,
+        $result = $objStudentRegistrationModel->updateStudentDetailsWithoutImage($registrationNumber, $firstName, $lastName, $fathersName, $mothersName, $dob,
                                                             $mobile, $address, $country, $state, $city, $pincode, $email, $gender, $studentUpdateId);
         if(!$result)
         {
@@ -74,7 +74,7 @@ if(isset($_FILES['withImage']) || isset($_POST['withoutImage']))
     }
 
     
-    $result = $model->updateHobbies($reading, $music, $sports, $travel, $studentUpdateId);
+    $result = $objStudentRegistrationModel->updateHobbies($reading, $music, $sports, $travel, $studentUpdateId);
     if(!$result)
     {
         die(mysqli_error($conn));
@@ -93,7 +93,7 @@ if(isset($_FILES['withImage']) || isset($_POST['withoutImage']))
         //update
         if($status == 1)
         {
-            $result = $model->updateQualifications($examination, $board, $percentage, $yop, $qualificationId);
+            $result = $objStudentRegistrationModel->updateQualifications($examination, $board, $percentage, $yop, $qualificationId);
             if(!$result)
             {
                 die(mysqli_error($conn));
@@ -103,7 +103,7 @@ if(isset($_FILES['withImage']) || isset($_POST['withoutImage']))
         //create
         if($status == 2)
         {
-            $result = $model->setQualifications($studentUpdateId, $examination, $board, $percentage, $yop);
+            $result = $objStudentRegistrationModel->setQualifications($studentUpdateId, $examination, $board, $percentage, $yop);
             if(!$result)
             {
                 die(mysqli_error($conn));
@@ -113,7 +113,7 @@ if(isset($_FILES['withImage']) || isset($_POST['withoutImage']))
         //delete
         if($status == 3)
         {
-            $result = $model->deleteQualifications($qualificationId);
+            $result = $objStudentRegistrationModel->deleteQualifications($qualificationId);
             if(!$result)
             {
                 die(mysqli_error($conn));
