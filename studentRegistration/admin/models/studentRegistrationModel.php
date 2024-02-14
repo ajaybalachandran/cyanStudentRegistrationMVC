@@ -89,7 +89,7 @@ class studentRegistrationModel{
     // }
 
     public function updateStudentDetailsWithImage($reg_no, $upload_image, $first_name, $last_name, $fathers_name, $mothers_name, $dob, 
-    $mobile, $address, $country, $state, $city, $pincode, $email, $gender, $student_update_id){
+    $mobile, $address, $country, $state, $city, $pincode, $email, $gender, $studentUpdateId){
         global $conn;
         $sql = "UPDATE `student`
         SET registration_no='$reg_no',image='$upload_image',
@@ -98,13 +98,13 @@ class studentRegistrationModel{
         dob='$dob',mobile='$mobile',address='$address',
         countryId=$country,stateId=$state,cityId=$city,
         pincode='$pincode',email='$email',gender='$gender' 
-        WHERE id=$student_update_id";
+        WHERE id=$studentUpdateId";
         $result = mysqli_query($conn, $sql);
         return $result;
     }
 
     public function updateStudentDetailsWithoutImage($reg_no, $first_name, $last_name, $fathers_name, $mothers_name, $dob,
-    $mobile, $address, $country, $state, $city, $pincode, $email, $gender, $student_update_id){
+    $mobile, $address, $country, $state, $city, $pincode, $email, $gender, $studentUpdateId){
         global $conn;
         $sql = "UPDATE `student`
         SET registrationNumber='$reg_no',
@@ -113,15 +113,15 @@ class studentRegistrationModel{
         dob='$dob',mobile='$mobile',address='$address',
         countryId=$country,stateId=$state,cityId=$city,
         pincode='$pincode',email='$email',gender='$gender' 
-        WHERE studentId=$student_update_id";
+        WHERE studentId=$studentUpdateId";
         $result = mysqli_query($conn,$sql);
         return $result;
     }
 
-    public function updateHobbies($reading, $music, $sports, $travel, $student_update_id){
+    public function updateHobbies($reading, $music, $sports, $travel, $studentUpdateId){
         global $conn;
         $sql = "UPDATE `hobbies` SET reading=$reading, music=$music,
-                sports=$sports, travel=$travel WHERE studentId=$student_update_id";
+                sports=$sports, travel=$travel WHERE studentId=$studentUpdateId";
         $result = mysqli_query($conn, $sql);
         return $result;
     }

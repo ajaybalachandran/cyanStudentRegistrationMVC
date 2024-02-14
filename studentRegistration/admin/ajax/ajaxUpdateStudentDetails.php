@@ -5,7 +5,7 @@ require_once "../controllers/studentRegistrationController.php";
 $model = new studentRegistrationModel();
 $studentRegistrationObj = new studentRegistrationController();
 if(isset($_FILES['img']) || isset($_POST['no_image'])){
-    $student_update_id = $_POST['student_update_id'];
+    $studentUpdateId = $_POST['studentUpdateId'];
     $reg_no = $_POST['reg_no'];
     $first_name = $_POST['fname'];
     $last_name =  $_POST['lname'];
@@ -52,7 +52,7 @@ if(isset($_FILES['img']) || isset($_POST['no_image'])){
             
             $upload_image = $studentRegistrationObj-> imageFileUpload($img_name);
             $result = $model->updateStudentDetailsWithImage($reg_no, $upload_image, $first_name, $last_name, $fathers_name, $mothers_name, $dob, 
-                    $mobile, $address, $country, $state, $city, $pincode, $email, $gender, $student_update_id);
+                    $mobile, $address, $country, $state, $city, $pincode, $email, $gender, $studentUpdateId);
             if(!$result){
                 die(mysqli_error($conn));
             }
@@ -74,14 +74,14 @@ if(isset($_FILES['img']) || isset($_POST['no_image'])){
         // echo "image not selected";
         
         $result = $model->updateStudentDetailsWithoutImage($reg_no, $first_name, $last_name, $fathers_name, $mothers_name, $dob,
-        $mobile, $address, $country, $state, $city, $pincode, $email, $gender, $student_update_id);
+        $mobile, $address, $country, $state, $city, $pincode, $email, $gender, $studentUpdateId);
         if(!$result){
             die(mysqli_error($conn));
         }
     }
 
     
-    $result = $model->updateHobbies($reading, $music, $sports, $travel, $student_update_id);
+    $result = $model->updateHobbies($reading, $music, $sports, $travel, $studentUpdateId);
     if(!$result){
         die(mysqli_error($conn));
     }
@@ -110,7 +110,7 @@ if(isset($_FILES['img']) || isset($_POST['no_image'])){
 
         //create
         if($status == 2){
-            $result = $model->setQualifications($student_update_id, $exam, $brd, $per, $year);
+            $result = $model->setQualifications($studentUpdateId, $exam, $brd, $per, $year);
             if(!$result){
                 die(mysqli_error($conn));
             }

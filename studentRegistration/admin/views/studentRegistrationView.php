@@ -501,7 +501,7 @@ if(isset($_POST['deleteStudent']))
                                                         <div class="col-8">
                                                             <div class="row align-items-center" style="height: 100%;">
                                                                 <div class="col">
-                                                                    <input type="file" name="nameUpdateProfileImage" id="update_profile_pic" class="inputFields file_upload_btn" style="border: none;">
+                                                                    <input type="file" name="nameUpdateProfileImage" id="idProfilePicUpdate" class="inputFields file_upload_btn" style="border: none;">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -740,7 +740,7 @@ if(isset($_POST['deleteStudent']))
                                                                 
                                                             </span>
                                                         </table>
-                                                        <input type="hidden" name="student_update_id" id="hiddendata">
+                                                        <input type="hidden" name="studentUpdateId" id="hiddendata">
                                                     </div>
                                                 </div>
                                             </div>
@@ -934,7 +934,8 @@ if(isset($_POST['deleteStudent']))
             z-index: 1;
             box-sizing: content-box;
             background-color: #fff;
-            max-height: 200px;
+            max-height: 100px;
+            overflow-y: scroll;
         }
         .citynames:hover
         {
@@ -1327,9 +1328,9 @@ if(isset($_POST['deleteStudent']))
 
                 let formData = new FormData(this);
                 
-                if($('#update_profile_pic')[0].files[0])
+                if($('#idProfilePicUpdate')[0].files[0])
                 {
-                    formData.append('img', $('#update_profile_pic')[0].files[0]);
+                    formData.append('img', $('#idProfilePicUpdate')[0].files[0]);
                 }
                 else
                 {
