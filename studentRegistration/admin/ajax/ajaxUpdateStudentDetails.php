@@ -2,7 +2,7 @@
 //require_once "../models/studentRegistrationModel.php";
 require_once "../controllers/studentRegistrationController.php";
 $objStudentRegistrationModel = new studentRegistrationModel();
-$studentRegistrationObj = new studentRegistrationController();
+$objStudentRegistrationController = new studentRegistrationController();
 
 if(isset($_FILES['withImage']) || isset($_POST['withoutImage']))
 {
@@ -44,14 +44,14 @@ if(isset($_FILES['withImage']) || isset($_POST['withoutImage']))
 
         if($error === 0)
         {
-            $uploadImage = $studentRegistrationObj-> imageFileUpload($imgName);
+            $uploadImage = $objStudentRegistrationController-> imageFileUpload($imgName);
             $result = $objStudentRegistrationModel->updateStudentDetailsWithImage($registrationNumber, $uploadImage, $firstName, $lastName, $fathersName, $mothersName, $dob, 
                                                             $mobile, $address, $country, $state, $city, $pincode, $email, $gender, $studentUpdateId);
             if(!$result)
             {
                 die(mysqli_error($conn));
             }
-            $studentRegistrationObj->moveUploadedImageToFolder($tmpName, $uploadImage);
+            $objStudentRegistrationController->moveUploadedImageToFolder($tmpName, $uploadImage);
         }
         else
         {

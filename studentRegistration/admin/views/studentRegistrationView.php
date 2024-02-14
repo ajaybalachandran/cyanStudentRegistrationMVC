@@ -1,6 +1,6 @@
 <?php
 include "../controllers/studentRegistrationController.php";
-$studentRegistrationObj = new studentRegistrationController();
+$objStudentRegistrationController = new studentRegistrationController();
 if(isset($_POST['submit']))
 {
     $registrationNumber         =       $_POST['registrationNumber'];
@@ -39,8 +39,8 @@ if(isset($_POST['submit']))
     if($imageFileError == 0)
     {
         //for creating path of image file to insert into db
-        $imageUrl = $studentRegistrationObj->imageFileUpload($imageFileName);
-        $studentId = $studentRegistrationObj->setStudent($registrationNumber, $imageUrl, $firstName, $lastName, $fathersName, $mothersName, $dob, 
+        $imageUrl = $objStudentRegistrationController->imageFileUpload($imageFileName);
+        $studentId = $objStudentRegistrationController->setStudent($registrationNumber, $imageUrl, $firstName, $lastName, $fathersName, $mothersName, $dob, 
                                                         $mobile, $address, $countryId, $stateId, $cityId, $pinCode, $email, $gender);
         if($studentId)
         {
@@ -51,8 +51,8 @@ if(isset($_POST['submit']))
             die("Student Data not inserted!!!!!!");
         }
         //for move the uploaded image file into the specified folder
-        $studentRegistrationObj->moveUploadedImageToFolder($imageFileTmp, $imageUrl);
-        $hobbiesResult = $studentRegistrationObj->setHobbies($studentId, $reading, $music, $sports, $travel);
+        $objStudentRegistrationController->moveUploadedImageToFolder($imageFileTmp, $imageUrl);
+        $hobbiesResult = $objStudentRegistrationController->setHobbies($studentId, $reading, $music, $sports, $travel);
         if($hobbiesResult)
         {
             echo "Hobbies Data inserted Successfully";
@@ -67,7 +67,7 @@ if(isset($_POST['submit']))
             $board = $boardArray[$i];
             $percentage = $percentageArray[$i];
             $yop = $yopArray[$i];
-            $qualificationsResult = $studentRegistrationObj->setQualifications($studentId, $examination, $board, $percentage, $yop);
+            $qualificationsResult = $objStudentRegistrationController->setQualifications($studentId, $examination, $board, $percentage, $yop);
         }
     }
     header('location:studentRegistrationView.php');
@@ -76,7 +76,7 @@ if(isset($_POST['submit']))
 if(isset($_POST['deleteStudent']))
 {
     $id = $_POST['studId'];
-    $result = $studentRegistrationObj->deleteStudent($id);
+    $result = $objStudentRegistrationController->deleteStudent($id);
     if($result)
     {
         header('location:studentRegistrationView.php');
@@ -275,7 +275,7 @@ if(isset($_POST['deleteStudent']))
                                                                 <option value="">Choose Country</option>
                                                                 <!-- Fetch Available Countries From Database and Display as Dropdown -->
                                                                 <?php 
-                                                                    $result = $studentRegistrationObj->getCountries();
+                                                                    $result = $objStudentRegistrationController->getCountries();
                                                                     echo $result;
                                                                 ?>
                                                             </select>
@@ -604,7 +604,7 @@ if(isset($_POST['deleteStudent']))
                                                             <select name="country" id="id_update_country">
                                                                 <!-- Fetch Available Countries From Database and Display as Dropdown -->
                                                                 <?php
-                                                                    $result = $studentRegistrationObj->getCountriesUpdate();
+                                                                    $result = $objStudentRegistrationController->getCountriesUpdate();
                                                                     echo $result;
                                                                 ?>
                                                             </select>
@@ -803,7 +803,7 @@ if(isset($_POST['deleteStudent']))
                         </thead>
                         <tbody>
                             <?php
-                                $students_list = $studentRegistrationObj->getStudents();
+                                $students_list = $objStudentRegistrationController->getStudents();
                                 echo $students_list;
                             ?>
                         </tbody>
