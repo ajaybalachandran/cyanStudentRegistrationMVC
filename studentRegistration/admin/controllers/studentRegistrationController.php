@@ -84,7 +84,7 @@ class studentRegistrationController
                                                     <button class="btn btn-sm btn-success me-3" onclick="GetDetails('.$studentId.')">Edit</button>
                                                     <form action="" method="post" class="deleteStudentForm d-inline" id="DeleteStud">
                                                         <input name="studId" type="hidden" value="'.$studentId.'">
-                                                        <button type="submit" name="deleteStudent" class="btn btn-sm btn-danger" style="display:inline">Delete</button>
+                                                        <button type="submit" name="deleteStudent" class="btn btn-sm btn-danger deleteStudData" style="display:inline">Delete</button>
                                                     </form>
                                                 </td>
                                             </tr>';
