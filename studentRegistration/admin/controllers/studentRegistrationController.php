@@ -48,9 +48,9 @@ class studentRegistrationController
         $dropdownOptions = '';
         while($row=mysqli_fetch_assoc($countries))
         {
-            $c_id               =       $row['countryId'];
-            $c_name             =       $row['countryName'];
-            $dropdownOptions   .=       '<option value="'.$c_name.'" data-country-id="'.$c_id.'">'.ucfirst($c_name).'</option>';
+            $countryId          =       $row['countryId'];
+            $countryName        =       $row['countryName'];
+            $dropdownOptions   .=       '<option value="'.$countryName.'" data-country-id="'.$countryId.'">'.ucfirst($countryName).'</option>';
         }
         return $dropdownOptions;
     }
@@ -104,13 +104,14 @@ class studentRegistrationController
 
     public function imageFileUpload($imageFileName)
     {
-        $filename_seperate = explode('.', $imageFileName);
-        $file_extension = strtolower($filename_seperate[1]);
+        $filenameSeperate = explode('.', $imageFileName);
+        $fileExtension = strtolower($filenameSeperate[1]);
         $extension = array('jpeg', 'JPEG', 'jpg', 'JPG', 'png', 'PNG');//allowed extentons by the user
-        if(in_array($file_extension, $extension)){//checkes whether the file selected by the user is allowed or not
-            $newImageName = uniqid("IMG-", true).'.'.$file_extension;
+        //checkes whether the file selected by the user is allowed or not
+        if(in_array($fileExtension, $extension))
+        {
+            $newImageName = uniqid("IMG-", true).'.'.$fileExtension;
             $uploadImage = '../images/uploads/'.$newImageName;//this to be insert in db
-            // move_uploaded_file($imagefiletmp, $upload_image);
         }
         return $uploadImage;
 
