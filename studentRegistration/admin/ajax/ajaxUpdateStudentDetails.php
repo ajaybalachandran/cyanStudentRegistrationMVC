@@ -1,10 +1,11 @@
 <?php
 //require_once "../models/studentRegistrationModel.php";
 require_once "../controllers/studentRegistrationController.php";
-
 $model = new studentRegistrationModel();
 $studentRegistrationObj = new studentRegistrationController();
-if(isset($_FILES['img']) || isset($_POST['no_image'])){
+
+if(isset($_FILES['withImage']) || isset($_POST['withoutImage']))
+{
     $studentUpdateId        =       $_POST['studentUpdateId'];
     $registrationNumber     =       $_POST['registrationNumber'];
     $firstName              =       $_POST['firstName'];
@@ -27,19 +28,19 @@ if(isset($_FILES['img']) || isset($_POST['no_image'])){
     $travel                 =       isset( $_POST['travel']) ? 1 : 0;
     
     $qualificationIdArray   =       $_POST['qualificationId']; //string
-    $examination            =       $_POST['examination'];
-    $board                  =       $_POST['board'];
-    $percentage             =       $_POST['percentage'];
-    $yop                    =       $_POST['yop'];
+    $examinationArray       =       $_POST['examination'];
+    $boardArray             =       $_POST['board'];
+    $percentageArray        =       $_POST['percentage'];
+    $yopArray               =       $_POST['yop'];
     $statusArray            =       $_POST['status'];
     
 
-    if(isset($_FILES['img']))
+    if(isset($_FILES['withImage']))
     {
-        $imgName           =       $_FILES['img']['name'];
-        $imgSize           =       $_FILES['img']['size'];
-        $tmpName           =       $_FILES['img']['tmp_name'];
-        $error             =       $_FILES['img']['error'];
+        $imgName           =       $_FILES['withImage']['name'];
+        $imgSize           =       $_FILES['withImage']['size'];
+        $tmpName           =       $_FILES['withImage']['tmp_name'];
+        $error             =       $_FILES['withImage']['error'];
 
         if($error === 0)
         {
@@ -62,7 +63,7 @@ if(isset($_FILES['img']) || isset($_POST['no_image'])){
     }
 
 
-    if(isset($_POST['no_image']))
+    if(isset($_POST['withoutImage']))
     {
         $result = $model->updateStudentDetailsWithoutImage($registrationNumber, $firstName, $lastName, $fathersName, $mothersName, $dob,
                                                             $mobile, $address, $country, $state, $city, $pincode, $email, $gender, $studentUpdateId);
@@ -80,19 +81,19 @@ if(isset($_FILES['img']) || isset($_POST['no_image'])){
     }
 
     //qualifications Dynamic Row
-    for($i=0; $i<count($examination);$i++)
+    for($i=0; $i<count($examinationArray);$i++)
     {
-        $qualificationId = $qualificationIdArray[$i];//string
-        $exam = $examination[$i];
-        $brd = $board[$i];
-        $per = $percentage[$i];
-        $year = $yop[$i];
-        $status = $statusArray[$i];
+        $qualificationId    =       $qualificationIdArray[$i];//string
+        $examination        =       $examinationArray[$i];
+        $board              =       $boardArray[$i];
+        $percentage         =       $percentageArray[$i];
+        $yop                =       $yopArray[$i];
+        $status             =       $statusArray[$i];
 
         //update
         if($status == 1)
         {
-            $result = $model->updateQualifications($exam, $brd, $per, $year, $qualificationId);
+            $result = $model->updateQualifications($examination, $board, $percentage, $yop, $qualificationId);
             if(!$result)
             {
                 die(mysqli_error($conn));
@@ -102,7 +103,7 @@ if(isset($_FILES['img']) || isset($_POST['no_image'])){
         //create
         if($status == 2)
         {
-            $result = $model->setQualifications($studentUpdateId, $exam, $brd, $per, $year);
+            $result = $model->setQualifications($studentUpdateId, $examination, $board, $percentage, $yop);
             if(!$result)
             {
                 die(mysqli_error($conn));

@@ -952,10 +952,13 @@ if(isset($_POST['deleteStudent']))
         //[REGISTRATION] Changing state dropdown options as per the selected country
         $(document).ready(function()
         {
-            $('#exampleModal').modal({backdrop: 'static', keyboard: false}); 
+            //Preventing the modal become hide whe clicking outside the edges of modal content(transperant part)
+            $('#exampleModal').modal({backdrop: 'static', keyboard: false});
+            
+            //RegistrationModal exit confirmation
             $('.closeRegModalBtn').click(function() 
             {
-                if (confirm('Do you want to close?')) 
+                if (confirm('Do You Want To Exit?')) 
                 {
                     $('#idRegistrationForm').trigger("reset");
                     $('#exampleModal').find('input[type!="file"], textarea, select').css('border', '');
@@ -1164,10 +1167,12 @@ if(isset($_POST['deleteStudent']))
         $(document).ready(function()
         {   
             //Preventing the modal become hide whe clicking outside the edges of modal content(transperant part)
-            $('#updateModal').modal({backdrop: 'static', keyboard: false}); 
+            $('#updateModal').modal({backdrop: 'static', keyboard: false});
+            
+            //UpdateModal exit confirmation
             $('.closeUpdateModalBtn').click(function() 
             {
-                if (confirm('Do you want to close?')) 
+                if (confirm('Do You Want To Exit?')) 
                 {
                     $('#updateModal').modal('hide');
                 }
@@ -1330,11 +1335,11 @@ if(isset($_POST['deleteStudent']))
                 
                 if($('#idProfilePicUpdate')[0].files[0])
                 {
-                    formData.append('img', $('#idProfilePicUpdate')[0].files[0]);
+                    formData.append('withImage', $('#idProfilePicUpdate')[0].files[0]);
                 }
                 else
                 {
-                    formData.append('no_image', 'no image is selected');
+                    formData.append('withoutImage', 'no image is selected');
                 }
                 let countryId = $('#id_update_country').find("option:selected").data("country-id");
                 let stateId = $('#id_update_state').find("option:selected").data("state-id");
