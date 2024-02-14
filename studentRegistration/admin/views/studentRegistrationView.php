@@ -934,7 +934,7 @@ if(isset($_POST['deleteStudent']))
             z-index: 1;
             box-sizing: content-box;
             background-color: #fff;
-            max-height: 100px;
+            max-height: 95px;
             overflow-y: scroll;
         }
         .citynames:hover
@@ -961,6 +961,7 @@ if(isset($_POST['deleteStudent']))
                 if (confirm('Do You Want To Exit?')) 
                 {
                     $('#idRegistrationForm').trigger("reset");
+                    $('#cityList').empty().fadeOut();
                     $('#exampleModal').find('input[type!="file"], textarea, select').css('border', '');
                     $('#exampleModal').find('input[type="file"]').css('border', 'none');
                     $('#exampleModal').modal('hide');
@@ -1013,7 +1014,15 @@ if(isset($_POST['deleteStudent']))
                     $('#cityList').fadeOut();
                     $('li').not(this).remove();
                 });
-                
+
+                // Fade out #cityList when clicking outside of it
+                $(document).on('click', function(e) {
+                    if (!$(e.target).closest('#cityList').length && !$(e.target).is('#idCity')) 
+                    {
+                        $('#cityList').fadeOut();
+                        $('#idCity').val('');
+                    }
+                });
             });
 
             //[REGISTRATION] Dynamic Row
@@ -1227,6 +1236,15 @@ if(isset($_POST['deleteStudent']))
                     $('#idUpdateCity').val($(this).text());
                     $('#cityListUpdate').fadeOut();
                     $('li').not(this).remove();
+                });
+
+                // Fade out #cityListUpdate when clicking outside of it
+                $(document).on('click', function(e) {
+                    if (!$(e.target).closest('#cityListUpdate').length && !$(e.target).is('#idUpdateCity')) 
+                    {
+                        $('#cityListUpdate').fadeOut();
+                        $('#idUpdateCity').val('');
+                    }
                 });
             });
 
