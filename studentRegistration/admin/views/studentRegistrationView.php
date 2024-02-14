@@ -489,7 +489,7 @@ if(isset($_POST['deleteStudent']))
                                                             <label for="IdRegNoUpdate" class="fw-semibold">Registration No</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input class="inputFields" type="number" name="reg_no" id="IdRegNoUpdate" style="width: 100%;">
+                                                            <input class="inputFields" type="number" name="registrationNumber" id="IdRegNoUpdate" style="width: 100%;">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -515,10 +515,10 @@ if(isset($_POST['deleteStudent']))
                                                 <div class="col-lg-6 pe-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="id_update_first_name" class="fw-semibold">First Name</label>
+                                                            <label for="idFirstNameUpdate" class="fw-semibold">First Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="fname" class="inputFields" id="id_update_first_name" placeholder="">
+                                                            <input type="text" name="firstName" class="inputFields" id="idFirstNameUpdate" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -528,7 +528,7 @@ if(isset($_POST['deleteStudent']))
                                                             <label for="id_update_lname" class="fw-semibold">Last Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="lname" class="inputFields" id="id_update_lname" placeholder="">
+                                                            <input type="text" name="lastName" class="inputFields" id="id_update_lname" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -542,7 +542,7 @@ if(isset($_POST['deleteStudent']))
                                                             <label for="id_update_father_name" class="fw-semibold">Father's Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="father_name" class="inputFields" id="id_update_father_name" placeholder="">
+                                                            <input type="text" name="fathersName" class="inputFields" id="id_update_father_name" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -552,7 +552,7 @@ if(isset($_POST['deleteStudent']))
                                                             <label for="id_update_mother_name" class="fw-semibold">Mother's Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="mother_name" class="inputFields" id="id_update_mother_name" placeholder="">
+                                                            <input type="text" name="mothersName" class="inputFields" id="id_update_mother_name" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1093,7 +1093,7 @@ if(isset($_POST['deleteStudent']))
                 studentRecord.forEach(student => 
                 {
                     $('#IdRegNoUpdate').val(student.registrationNumber);
-                    $('#id_update_first_name').val(student.firstName);
+                    $('#idFirstNameUpdate').val(student.firstName);
                     $('#id_update_lname').val(student.lastName);
                     $('#id_update_father_name').val(student.fathersName);
                     $('#id_update_mother_name').val(student.mothersName);
@@ -1135,7 +1135,7 @@ if(isset($_POST['deleteStudent']))
                     for(i in qualificationsArray)
                     {
                         var html = '';
-                        html += '<tr><td><p>'+slno+'</p><input type="hidden" name="qualification_id[]" id="existing_update_hidden_id'+slno+'"></td>';
+                        html += '<tr><td><p>'+slno+'</p><input type="hidden" name="qualificationId[]" id="existing_update_hidden_id'+slno+'"></td>';
                         html += '<td><input type="text" name="examination[]" id="id_update_examination'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
                         html += '<td><input type="text" name="board[]" id="id_update_board'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
                         html += '<td><input type="text" name="percentage[]" id="id_update_percentage'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
@@ -1236,7 +1236,7 @@ if(isset($_POST['deleteStudent']))
                 $('#id_update_add_btn').click(function()
                 {
                     var html = '';
-                    html += '<tr class="dynamic-element"><td><p>'+slno+'</p><input type="hidden" name="qualification_id[]" id="update_hidden_id'+count+'"></td>';
+                    html += '<tr class="dynamic-element"><td><p>'+slno+'</p><input type="hidden" name="qualificationId[]" id="update_hidden_id'+count+'"></td>';
                     html += '<td><input type="text" name="examination[]" class="table_input" style="margin-right: 5px;"></td>';
                     html += '<td><input type="text" name="board[]" class="table_input" style="margin-right: 5px;"></td>';
                     html += '<td><input type="text" name="percentage[]" class="table_input" style="margin-right: 5px;"></td>';

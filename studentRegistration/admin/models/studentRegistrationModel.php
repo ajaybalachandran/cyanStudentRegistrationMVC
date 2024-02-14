@@ -88,28 +88,28 @@ class studentRegistrationModel{
     //     return $states;
     // }
 
-    public function updateStudentDetailsWithImage($reg_no, $upload_image, $first_name, $last_name, $fathers_name, $mothers_name, $dob, 
+    public function updateStudentDetailsWithImage($registrationNumber, $upload_image, $firstName, $lastName, $fathersName, $mothersName, $dob, 
     $mobile, $address, $country, $state, $city, $pincode, $email, $gender, $studentUpdateId){
         global $conn;
         $sql = "UPDATE `student`
-        SET registration_no='$reg_no',image='$upload_image',
-        first_name='$first_name',last_name='$last_name',
-        fathers_name='$fathers_name',mothers_name='$mothers_name',
+        SET registrationNumber='$registrationNumber',imageUrl='$upload_image',
+        firstName='$firstName',lastName='$lastName',
+        fathersName='$fathersName',mothersName='$mothersName',
         dob='$dob',mobile='$mobile',address='$address',
         countryId=$country,stateId=$state,cityId=$city,
         pincode='$pincode',email='$email',gender='$gender' 
-        WHERE id=$studentUpdateId";
+        WHERE studentId=$studentUpdateId";
         $result = mysqli_query($conn, $sql);
         return $result;
     }
 
-    public function updateStudentDetailsWithoutImage($reg_no, $first_name, $last_name, $fathers_name, $mothers_name, $dob,
+    public function updateStudentDetailsWithoutImage($registrationNumber, $firstName, $lastName, $fathersName, $mothersName, $dob,
     $mobile, $address, $country, $state, $city, $pincode, $email, $gender, $studentUpdateId){
         global $conn;
         $sql = "UPDATE `student`
-        SET registrationNumber='$reg_no',
-        firstName='$first_name',lastName='$last_name',
-        fathersName='$fathers_name',mothersName='$mothers_name',
+        SET registrationNumber='$registrationNumber',
+        firstName='$firstName',lastName='$lastName',
+        fathersName='$fathersName',mothersName='$mothersName',
         dob='$dob',mobile='$mobile',address='$address',
         countryId=$country,stateId=$state,cityId=$city,
         pincode='$pincode',email='$email',gender='$gender' 
@@ -126,17 +126,17 @@ class studentRegistrationModel{
         return $result;
     }
 
-    public function updateQualifications($exam, $brd, $per, $year, $q_id){
+    public function updateQualifications($exam, $brd, $per, $year, $qualificationId){
         global $conn;
         $sql = "UPDATE `qualifications` SET examination='$exam',
-                board='$brd', percentage=$per, yop='$year' WHERE qualificationId=$q_id";
+                board='$brd', percentage=$per, yop='$year' WHERE qualificationId=$qualificationId";
         $result = mysqli_query($conn, $sql);
         return $result;
     }
 
-    public function deleteQualifications($q_id){
+    public function deleteQualifications($qualificationId){
         global $conn;
-        $sql = "UPDATE `qualifications` SET status=0 WHERE qualificationId=$q_id";
+        $sql = "UPDATE `qualifications` SET status=0 WHERE qualificationId=$qualificationId";
         $result = mysqli_query($conn, $sql);
         return $result;
     }
