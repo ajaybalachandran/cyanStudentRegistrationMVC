@@ -171,7 +171,7 @@ if(isset($_POST['deleteStudent']))
                                                         <div class="col-8">
                                                             <div class="row align-items-center" style="height: 100%;">
                                                                 <div class="col">
-                                                                    <input type="file" name="profileImage" class="inputFields file_upload_btn" style="border: none;">
+                                                                    <input type="file" name="profileImage" class="inputFields fileUploadBtn" style="border: none;">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -185,20 +185,20 @@ if(isset($_POST['deleteStudent']))
                                                 <div class="col-lg-6 pe-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="id_first_name" class="fw-semibold">First Name</label>
+                                                            <label for="idFirstName" class="fw-semibold">First Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="firstName" class="inputFields" id="id_first_name" placeholder="">
+                                                            <input type="text" name="firstName" class="inputFields" id="idFirstName" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 ps-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="id_lname" class="fw-semibold">Last Name</label>
+                                                            <label for="idLastName" class="fw-semibold">Last Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="lastName" class="inputFields" id="id_lname" placeholder="">
+                                                            <input type="text" name="lastName" class="inputFields" id="idLastName" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -209,20 +209,20 @@ if(isset($_POST['deleteStudent']))
                                                 <div class="col-lg-6 pe-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="id_father_name" class="fw-semibold">Father's Name</label>
+                                                            <label for="idFathersName" class="fw-semibold">Father's Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="fathersName" class="inputFields" id="id_father_name" placeholder="">
+                                                            <input type="text" name="fathersName" class="inputFields" id="idFathersName" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 ps-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="id_mother_name" class="fw-semibold">Mother's Name</label>
+                                                            <label for="idMothersName" class="fw-semibold">Mother's Name</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" name="mothersName" class="inputFields" id="id_mother_name" placeholder="">
+                                                            <input type="text" name="mothersName" class="inputFields" id="idMothersName" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -233,20 +233,20 @@ if(isset($_POST['deleteStudent']))
                                                 <div class="col-lg-6 pe-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="id_dob" class="fw-semibold">Date Of Birth</label>
+                                                            <label for="idDob" class="fw-semibold">Date Of Birth</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="date" name="dob" class="inputFields" id="id_dob" >
+                                                            <input type="date" name="dob" class="inputFields" id="idDob" >
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 ps-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="id_mob" class="fw-semibold">Mobile</label>
+                                                            <label for="idMobile" class="fw-semibold">Mobile</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="number" name="mobile" class="inputFields" id="id_mob" placeholder="">
+                                                            <input type="number" name="mobile" class="inputFields" id="idMobile" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -258,10 +258,10 @@ if(isset($_POST['deleteStudent']))
                                                 <div class="col-lg-6 pe-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="id_address" class="fw-semibold">Address</label>
+                                                            <label for="idAddress" class="fw-semibold">Address</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <textarea name="address" id="id_address" cols="" rows=""  class=""></textarea>
+                                                            <textarea name="address" id="idAddress" cols="" rows=""  class=""></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -305,7 +305,7 @@ if(isset($_POST['deleteStudent']))
                                                         <div class="col-lg-4">
                                                             <label for="idCity" class="fw-semibold">City</label>
                                                         </div>
-                                                        <div class="col-lg-8 city_names">
+                                                        <div class="col-lg-8 cityNamesReg">
                                                             <input type="text" name="city" class="inputFields" id="idCity" autocomplete="off">
                                                             <!-- In ths div city names are populated -->
                                                             <div  id="cityList">
@@ -322,20 +322,20 @@ if(isset($_POST['deleteStudent']))
                                                 <div class="col-lg-6 pe-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="id_pin" class="fw-semibold">Pincode</label>
+                                                            <label for="idPinCode" class="fw-semibold">Pincode</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="number" name="pinCode" class="inputFields" id="id_pin" placeholder="">
+                                                            <input type="number" name="pinCode" class="inputFields" id="idPinCode" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 ps-lg-5">
                                                     <div class="row align-items-center" style="height: 100%;">
                                                         <div class="col-lg-4">
-                                                            <label for="id_email" class="fw-semibold">Email</label>
+                                                            <label for="idEmail" class="fw-semibold">Email</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="email" name="email" class="inputFields" id="id_email" placeholder="">
+                                                            <input type="email" name="email" class="inputFields" id="idEmail" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -369,20 +369,20 @@ if(isset($_POST['deleteStudent']))
                                                     <label for="" class="fw-semibold">Hobbies</label>
                                                 </div>
                                                 <div class="col">
-                                                    <input type="checkbox" name="reading" value="reading" id="id_reading">
-                                                    <label for="id_reading">Reading</label>
+                                                    <input type="checkbox" name="reading" value="reading" id="idReading">
+                                                    <label for="idReading">Reading</label>
                                                 </div>
                                                 <div class="col">
-                                                    <input type="checkbox" name="music" value="music" id="id_music">
-                                                    <label for="id_music">Music</label>
+                                                    <input type="checkbox" name="music" value="music" id="idMusic">
+                                                    <label for="idMusic">Music</label>
                                                 </div>
                                                 <div class="col">
-                                                    <input type="checkbox" name="sports" value="sports" id="id_sports">
-                                                    <label for="id_sports">Sports</label>
+                                                    <input type="checkbox" name="sports" value="sports" id="idSports">
+                                                    <label for="idSports">Sports</label>
                                                 </div>
                                                 <div class="col">
-                                                    <input type="checkbox" name="travel" value="travel" id="id_travel">
-                                                    <label for="id_travel">Travel</label>
+                                                    <input type="checkbox" name="travel" value="travel" id="idTravel">
+                                                    <label for="idTravel">Travel</label>
                                                 </div>
                                             </div>
 
@@ -407,16 +407,16 @@ if(isset($_POST['deleteStudent']))
                                                                     <p>1</p>
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" name="examination[]" class="table_input" style="margin-right: 5px;">
+                                                                    <input type="text" name="examination[]" class="tableInput" style="margin-right: 5px;">
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" name="board[]" class="table_input" style="margin-right: 5px;">
+                                                                    <input type="text" name="board[]" class="tableInput" style="margin-right: 5px;">
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" name="percentage[]" class="table_input" style="margin-right: 5px;">
+                                                                    <input type="text" name="percentage[]" class="tableInput" style="margin-right: 5px;">
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" name="yop[]" class="table_input" style="margin-right: 5px;">
+                                                                    <input type="text" name="yop[]" class="tableInput" style="margin-right: 5px;">
                                                                 </td>
                                                                 <td>
                                                                     <button type="button" class="btn btn-sm btn-secondary" id="addRowBtnReg">
@@ -501,7 +501,7 @@ if(isset($_POST['deleteStudent']))
                                                         <div class="col-8">
                                                             <div class="row align-items-center" style="height: 100%;">
                                                                 <div class="col">
-                                                                    <input type="file" name="nameUpdateProfileImage" id="idProfilePicUpdate" class="inputFields file_upload_btn" style="border: none;">
+                                                                    <input type="file" name="nameUpdateProfileImage" id="idProfilePicUpdate" class="inputFields fileUploadBtn" style="border: none;">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -914,14 +914,14 @@ if(isset($_POST['deleteStudent']))
             background: #333;
         }
 
-        .table_input
+        .tableInput
         {
             margin-bottom:3px !important;
             border: none;
             border-bottom: 2px solid black;
             background-color: #ffffff00;
         }
-        .city_names, .city_names_update
+        .cityNamesReg, .city_names_update
         {
             position: relative;
         }
@@ -1032,10 +1032,10 @@ if(isset($_POST['deleteStudent']))
                 console.log("clicked" ,slno);
                 var html = '';
                 html += '<tr><td><p>'+slno+'</p></td>';
-                html += '<td><input type="text" name="examination[]" class="table_input" style="margin-right: 5px;"></td>';
-                html += '<td><input type="text" name="board[]" class="table_input" style="margin-right: 5px;"></td>';
-                html += '<td><input type="text" name="percentage[]" class="table_input" style="margin-right: 5px;"></td>';
-                html += '<td><input type="text" name="yop[]" class="table_input" style="margin-right: 5px;"></td>';
+                html += '<td><input type="text" name="examination[]" class="tableInput" style="margin-right: 5px;"></td>';
+                html += '<td><input type="text" name="board[]" class="tableInput" style="margin-right: 5px;"></td>';
+                html += '<td><input type="text" name="percentage[]" class="tableInput" style="margin-right: 5px;"></td>';
+                html += '<td><input type="text" name="yop[]" class="tableInput" style="margin-right: 5px;"></td>';
                 html += '<td><button type="button" class="btn btn-sm btn-danger remove" name="remove"><span><i class="fa-solid fa-minus"></i></span></button></td>';
                 html += '</tr>';
                 $('#idQualificationTable').append(html);
@@ -1148,10 +1148,10 @@ if(isset($_POST['deleteStudent']))
                     {
                         var html = '';
                         html += '<tr><td><p>'+slno+'</p><input type="hidden" name="qualificationId[]" id="existingQualificationId'+slno+'"></td>';
-                        html += '<td><input type="text" name="examination[]" id="idExaminationUpdate'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
-                        html += '<td><input type="text" name="board[]" id="idBoardUpdate'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
-                        html += '<td><input type="text" name="percentage[]" id="idPercentageUpdate'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
-                        html += '<td><input type="text" name="yop[]" id="idYopUpdate'+slno+'" class="table_input" style="margin-right: 5px;"></td>';
+                        html += '<td><input type="text" name="examination[]" id="idExaminationUpdate'+slno+'" class="tableInput" style="margin-right: 5px;"></td>';
+                        html += '<td><input type="text" name="board[]" id="idBoardUpdate'+slno+'" class="tableInput" style="margin-right: 5px;"></td>';
+                        html += '<td><input type="text" name="percentage[]" id="idPercentageUpdate'+slno+'" class="tableInput" style="margin-right: 5px;"></td>';
+                        html += '<td><input type="text" name="yop[]" id="idYopUpdate'+slno+'" class="tableInput" style="margin-right: 5px;"></td>';
                         html += '<td><button type="button" class="btn btn-sm btn-danger removeRow" name="remove"><span><i class="fa-solid fa-minus"></i></span></button>';
                         html += '<input type="hidden" name="status[]" id="existingQualificationStatus'+slno+'" value=1></td>'
                         html += '</tr>';
@@ -1260,10 +1260,10 @@ if(isset($_POST['deleteStudent']))
                 {
                     var html = '';
                     html += '<tr class="dynamic-element"><td><p>'+slno+'</p><input type="hidden" name="qualificationId[]" id="newQualificationId'+count+'"></td>';
-                    html += '<td><input type="text" name="examination[]" class="table_input" style="margin-right: 5px;"></td>';
-                    html += '<td><input type="text" name="board[]" class="table_input" style="margin-right: 5px;"></td>';
-                    html += '<td><input type="text" name="percentage[]" class="table_input" style="margin-right: 5px;"></td>';
-                    html += '<td><input type="text" name="yop[]" class="table_input" style="margin-right: 5px;"></td>';
+                    html += '<td><input type="text" name="examination[]" class="tableInput" style="margin-right: 5px;"></td>';
+                    html += '<td><input type="text" name="board[]" class="tableInput" style="margin-right: 5px;"></td>';
+                    html += '<td><input type="text" name="percentage[]" class="tableInput" style="margin-right: 5px;"></td>';
+                    html += '<td><input type="text" name="yop[]" class="tableInput" style="margin-right: 5px;"></td>';
                     html += '<td><button type="button" class="btn btn-sm btn-danger removeRow" name="removeRow"><span><i class="fa-solid fa-minus"></i></span></button>';
                     html += '<input type="hidden" name="status[]" id="newQualificationStatus'+count+'" value=2></td>'
                     html += '</tr>';
