@@ -1,5 +1,6 @@
 <?php
 include "../controllers/studentRegistrationController.php";
+require_once "../mpdf/vendor/autoload.php";
 $objStudentRegistrationController = new studentRegistrationController();
 if(isset($_POST['submit']))
 {
@@ -70,7 +71,14 @@ if(isset($_POST['submit']))
             $qualificationsResult = $objStudentRegistrationController->setQualifications($studentId, $examination, $board, $percentage, $yop);
         }
     }
-    header('location:studentRegistrationView.php');
+    //header('location:studentRegistrationView.php');
+    //mpdf logic 
+    // $mpdf = new \Mpdf\Mpdf();
+    // $mpdf->SetTitle('STUDENT REGISTRATION FORM');
+    // $mpdf->WriteHTML('<h1>Hello world!</h1>');
+    // $mpdf->Output();
+    header('Location: studentRegistrationPrint.php?studentId=' . $studentId);
+    exit;
 }
 
 if(isset($_POST['deleteStudent']))
@@ -1060,10 +1068,14 @@ if(isset($_POST['deleteStudent']))
             //[REGISTRATION] Form submit validation; Checks for empty/null input values and give Alert
             $(document).on('submit', '#idRegistrationForm', function(e)
             {
+                $('#idRegistrationForm:visible').find('input[type!="file"], textarea, select').css('border', '');
+                $('#idRegistrationForm:visible').find('input[type="file"]').css('border', 'none');
+                let hasEmptyField = false;
 
                 // Check each input in the form
                 $('#idRegistrationForm:visible').find('input, textarea, select').each(function() 
                 {
+                    
                     // If the input is empty
                     if (!$(this).val()) 
                     {
@@ -1072,15 +1084,21 @@ if(isset($_POST['deleteStudent']))
                         // Optionally, you can show an alert or highlight the empty field
                         alert('Please fill all the fields');
                         $(this).css('border', '1px solid red');
+                        hasEmptyField = true;
                         // Exit the loop
                         return false;
                     }
                 });
 
+                if (hasEmptyField) 
+                {
+                    return false;
+                }
+
                 if (!$('input[name="gender"]:checked').length) 
                 {
                     e.preventDefault();
-                    alert('Please select a radio option');
+                    alert('Please select a Gender');
                 }
 
             });
