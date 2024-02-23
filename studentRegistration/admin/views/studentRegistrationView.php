@@ -169,12 +169,12 @@ if(isset($_POST['deleteStudent']))
                                                 <div class="col-lg-6 ps-lg-5">
                                                     <div class="row">
                                                         <div class="col-4">
-                                                            <img id="imagePreview" src="../images/dummy_prof.png" alt="Image Preview" class="img-fluid me-0 dummyImg" style="max-width: 100px;">
+                                                            <img id="imagePreview" src="../images/dummy_prof.png" alt="Image Preview" class="img-fluid me-0 dummyImg" style="width: 100px; height:100px;">
                                                         </div>
                                                         <div class="col-8">
                                                             <div class="row align-items-center" style="height: 100%;">
                                                                 <div class="col">
-                                                                    <input type="file" name="profileImage" class="inputFields fileUploadBtn" style="border: none;">
+                                                                    <input type="file" name="profileImage" class="inputFields fileUploadBtn" id="idProfileImageFile" style="border: none;">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -499,7 +499,7 @@ if(isset($_POST['deleteStudent']))
                                                 <div class="col-lg-6 ps-lg-5">
                                                     <div class="row">
                                                         <div class="col-4">
-                                                            <img id="UpdateimagePreview" src="../images/dummy_prof.png" alt="Image Preview" class="img-fluid me-0 dummyImg" style="max-width: 100px;">
+                                                            <img id="UpdateimagePreview" src="../images/dummy_prof.png" alt="Image Preview" class="img-fluid me-0 dummyImg" style="width: 100px; height: 100px;">
                                                         </div>
                                                         <div class="col-8">
                                                             <div class="row align-items-center" style="height: 100%;">
@@ -965,10 +965,18 @@ if(isset($_POST['deleteStudent']))
                 {
                     $('#idRegistrationForm').trigger("reset");
                     $('#cityList').empty().fadeOut();
+                    $('#imagePreview').attr('src', '../images/dummy_prof.png');
                     $('#exampleModal').find('input[type!="file"], textarea, select').css('border', '');
                     $('#exampleModal').find('input[type="file"]').css('border', 'none');
                     $('#exampleModal').modal('hide');
                 }
+            });
+
+            //RegistrationModal ProfileImage preview
+            $(document).on('change', '#idProfileImageFile', function(e)
+            {
+                var image = URL.createObjectURL(e.target.files[0]);
+                $('#imagePreview').attr('src', image);
             });
 
             $(document).on('change', '#idCountry', function(e)
@@ -1118,6 +1126,7 @@ if(isset($_POST['deleteStudent']))
                 studentRecord.forEach(student => 
                 {
                     $('#idRegNoUpdate').val(student.registrationNumber);
+                    $('#UpdateimagePreview').attr('src', student.imageUrl);
                     $('#idFirstNameUpdate').val(student.firstName);
                     $('#idLastNameUpdate').val(student.lastName);
                     $('#idFathersNameUpdate').val(student.fathersName);
@@ -1197,7 +1206,14 @@ if(isset($_POST['deleteStudent']))
                 if (confirm('Do You Want To Exit?')) 
                 {
                     $('#updateModal').modal('hide');
+                    $('#UpdateimagePreview').attr('src', '../images/dummy_prof.png');
                 }
+            });
+
+            $(document).on('change', '#idProfilePicUpdate', function(e)
+            {
+                var image = URL.createObjectURL(e.target.files[0]);
+                $('#UpdateimagePreview').attr('src', image);
             });
 
             //[UPDATE] Changing state dropdown options as per the selected country
