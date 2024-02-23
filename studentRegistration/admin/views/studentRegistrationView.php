@@ -72,13 +72,8 @@ if(isset($_POST['submit']))
         }
     }
     //header('location:studentRegistrationView.php');
-    //mpdf logic 
-    // $mpdf = new \Mpdf\Mpdf();
-    // $mpdf->SetTitle('STUDENT REGISTRATION FORM');
-    // $mpdf->WriteHTML('<h1>Hello world!</h1>');
-    // $mpdf->Output();
+    
     header('Location: studentRegistrationPrint.php?studentId=' . $studentId);
-    exit;
 }
 
 if(isset($_POST['deleteStudent']))
