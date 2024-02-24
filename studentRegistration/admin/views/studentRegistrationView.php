@@ -37,43 +37,53 @@ if(isset($_POST['submit']))
     $imageFileError             =       $image['error'];
     $imageFileTmp               =       $image['tmp_name'];
 
-    if($imageFileError == 0)
+    $duplicationCount = $objStudentRegistrationController->checkRegistrationNumberDuplication($registrationNumber);
+    if($duplicationCount == 0)
     {
-        //for creating path of image file to insert into db
-        $imageUrl = $objStudentRegistrationController->imageFileUpload($imageFileName);
-        $studentId = $objStudentRegistrationController->setStudent($registrationNumber, $imageUrl, $firstName, $lastName, $fathersName, $mothersName, $dob, 
-                                                        $mobile, $address, $countryId, $stateId, $cityId, $pinCode, $email, $gender);
-        if($studentId)
+        if($imageFileError == 0)
         {
-            echo "Student Data inserted Successfully";
+            //for creating path of image file to insert into db
+            $imageUrl = $objStudentRegistrationController->imageFileUpload($imageFileName);
+            $studentId = $objStudentRegistrationController->setStudent($registrationNumber, $imageUrl, $firstName, $lastName, $fathersName, $mothersName, $dob, 
+                                                            $mobile, $address, $countryId, $stateId, $cityId, $pinCode, $email, $gender);
+            if($studentId)
+            {
+                echo "Student Data inserted Successfully";
+            }
+            else
+            {
+                die("Student Data not inserted!!!!!!");
+            }
+            //for move the uploaded image file into the specified folder
+            $objStudentRegistrationController->moveUploadedImageToFolder($imageFileTmp, $imageUrl);
+            $hobbiesResult = $objStudentRegistrationController->setHobbies($studentId, $reading, $music, $sports, $travel);
+            if($hobbiesResult)
+            {
+                echo "Hobbies Data inserted Successfully";
+            }
+            else
+            {
+                die("Hobbies Data not inserted!!!!!!");
+            }
+            for($i=0; $i<count($examinationArray);$i++)
+            {
+                $examination = $examinationArray[$i];
+                $board = $boardArray[$i];
+                $percentage = $percentageArray[$i];
+                $yop = $yopArray[$i];
+                $qualificationsResult = $objStudentRegistrationController->setQualifications($studentId, $examination, $board, $percentage, $yop);
+            }
         }
-        else
-        {
-            die("Student Data not inserted!!!!!!");
-        }
-        //for move the uploaded image file into the specified folder
-        $objStudentRegistrationController->moveUploadedImageToFolder($imageFileTmp, $imageUrl);
-        $hobbiesResult = $objStudentRegistrationController->setHobbies($studentId, $reading, $music, $sports, $travel);
-        if($hobbiesResult)
-        {
-            echo "Hobbies Data inserted Successfully";
-        }
-        else
-        {
-            die("Hobbies Data not inserted!!!!!!");
-        }
-        for($i=0; $i<count($examinationArray);$i++)
-        {
-            $examination = $examinationArray[$i];
-            $board = $boardArray[$i];
-            $percentage = $percentageArray[$i];
-            $yop = $yopArray[$i];
-            $qualificationsResult = $objStudentRegistrationController->setQualifications($studentId, $examination, $board, $percentage, $yop);
-        }
+        //header('location:studentRegistrationView.php');
+        
+        header('Location: studentRegistrationPrint.php?studentId=' . $studentId);
     }
-    //header('location:studentRegistrationView.php');
+    else
+    {
+        header('location:studentRegistrationView.php');
+        echo '<script>alert("Registration Number Duplication Found!!!");</script>';
+    }
     
-    header('Location: studentRegistrationPrint.php?studentId=' . $studentId);
 }
 
 if(isset($_POST['deleteStudent']))
@@ -162,7 +172,11 @@ if(isset($_POST['deleteStudent']))
                                                             <label for="IdRegNo" class="fw-semibold">Registration No</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input class="inputFields" type="number" name="registrationNumber" id="IdRegNo" style="width: 100%;">
+                                                            <!-- <input class="inputFields" type="text" name="registrationNumber" id="IdRegNo" style="width: 100%;"> -->
+                                                            <?php
+                                                                $result = $objStudentRegistrationController->getNewRegistrationNumber();
+                                                                echo $result;
+                                                            ?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -492,7 +506,7 @@ if(isset($_POST['deleteStudent']))
                                                             <label for="idRegNoUpdate" class="fw-semibold">Registration No</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input class="inputFields" type="number" name="registrationNumber" id="idRegNoUpdate" style="width: 100%;">
+                                                            <input class="inputFields" type="text" name="registrationNumber" id="idRegNoUpdate" style="width: 100%;">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -998,6 +1012,30 @@ if(isset($_POST['deleteStudent']))
             {
                 $('#idCity').val("");
             });
+            
+            //reg no duplication check
+            $(document).on('keyup', '#IdRegNo', function(e) 
+            {
+                var typedRegNo = $(this).val();
+                var expectedPrefix = 'STUD/'+new Date().getFullYear()+'/';
+                
+                if (typedRegNo.startsWith(expectedPrefix)) 
+                {
+                    $.post("../ajax/ajaxCheckRegistrationNumberDuplication.php", {changedRegNo: typedRegNo}, function(data, status) {
+                        console.log("output" + data);
+                        if (data != 0) 
+                        {
+                            alert("Registration Number Duplication Found!!!");
+                            $('#IdRegNo').val($('#idHiddenRegNo').val());
+                        }
+                    });
+                } 
+                else 
+                {
+                    alert("The registration number should be in STUD/"+new Date().getFullYear()+"/____ format");
+                    $(this).val(expectedPrefix);
+                }
+            });
 
             //[REGISTRATION] City Auto Complete
             $(document).on('keyup', '#idCity', function(e)
@@ -1103,6 +1141,7 @@ if(isset($_POST['deleteStudent']))
                     e.preventDefault();
                     alert('Please select a Gender');
                 }
+                // $('#idRegistrationForm').trigger("reset"); 
 
             });
 

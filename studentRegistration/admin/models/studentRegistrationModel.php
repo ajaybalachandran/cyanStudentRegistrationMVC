@@ -2,6 +2,21 @@
 include "../dbconnection.php";
 class studentRegistrationModel
 {
+    public function getLastRegistrationNumber()
+    {
+        global $conn;
+        $sql = "SELECT registrationNumber FROM student ORDER BY studentId DESC";
+        $result = mysqli_query($conn, $sql);
+        return $result;
+    }
+
+    public function checkRegistrationNumberDuplication($typedRegNo)
+    {
+        global $conn;
+        $sql = "SELECT COUNT(*) AS count FROM student WHERE registrationNumber = '$typedRegNo'";
+        $result = mysqli_query($conn, $sql);
+        return $result;
+    }
 
     public function setStudent($registrationNumber, $imageUrl, $firstName, $lastName, $fathersName, $mothersName, $dob, 
                                 $mobile, $address, $countryId, $stateId, $cityId, $pinCode, $email, $gender)

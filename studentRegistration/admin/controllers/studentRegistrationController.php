@@ -3,6 +3,36 @@ include "../models/studentRegistrationModel.php";
 
 class studentRegistrationController
 {
+    public function getNewRegistrationNumber()
+    {
+        $objStudentRegistrationModel = new studentRegistrationModel();
+        $result = $objStudentRegistrationModel->getLastRegistrationNumber();
+        $row = mysqli_fetch_array($result);
+        $lastRegistrationNumber = $row['registrationNumber'];
+        $lastRegistrationNumberArray = explode("/", $lastRegistrationNumber);
+        if(count($lastRegistrationNumberArray) == 3)
+        {
+            $regNo = $lastRegistrationNumberArray[2]+1;
+        }
+        else
+        {
+            $regNo = 1;
+        }
+        $newRegistrationNumber = "STUD/".date("Y")."/$regNo";
+        $newRegistrationNumberHtml = '<input class="inputFields" type="text" name="registrationNumber" id="IdRegNo" value="'.$newRegistrationNumber.'" style="width: 100%;">
+                                        <input type="hidden" name="hiddenRegNo" id="idHiddenRegNo" value="'.$newRegistrationNumber.'">';
+        return $newRegistrationNumberHtml;
+    }
+
+    public function checkRegistrationNumberDuplication($registrationNumber)
+    {
+        $objStudentRegistrationModel = new studentRegistrationModel();
+        $result = $objStudentRegistrationModel->checkRegistrationNumberDuplication($registrationNumber);
+        $row = mysqli_fetch_assoc($result);
+        $count = $row['count'];
+        return $count;
+    }
+
     public function setStudent($registrationNumber, $imageUrl, $firstName, $lastName, $fathersName, $mothersName, $dob, 
                                 $mobile, $address, $countryId, $stateId, $cityId, $pinCode, $email, $gender)
     {
